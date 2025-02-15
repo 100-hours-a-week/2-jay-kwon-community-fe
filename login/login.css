@@ -71,12 +71,16 @@ body {
     font-size: 14px;
     cursor: pointer;
 }
-.text .helper {
+
+/* 헬퍼 텍스트 */
+.helper-text {
     font-size: 14px;
     text-align: left;
+    margin-top: 4px;
+}
+.helper-text .login {
     color: #FF0000;
     display: none;
-    margin-top: 5px;
 }
 
 /* 로그인 입력 부분 */

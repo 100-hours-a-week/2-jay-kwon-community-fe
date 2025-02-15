@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
-    const helperText = document.querySelector(".text .helper");
+    const helperText = document.querySelector(".helper-text .login");
     const loginButton = document.querySelector(".buttons .button");
 
     loginButton.addEventListener("click", function (event) {
