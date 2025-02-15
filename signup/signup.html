@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="kr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="signup.css" />
+    <title>회원가입 페이지</title>
+</head>
+
+<body>
+    <section class="wrap">
+
+        <article class="header">
+            <h1 class="title">아무 말 대잔치</h1>
+        </article>
+
+        <hr class="horizontal-rule" />
+
+        <article class="text">
+            <p class="big">회원가입</p>
+        </article>
+
+        <div class="container">
+
+            <article class="signup">
+                <p class="label">프로필 사진</p>
+            </article>
+
+            <article class="helper-text">
+                <p class="profile">* helper text</p>
+            </article>
+
+            <article class="profile">
+                <div class="image"></div>
+            </article>
+
+        </div>
+
+        <br>
+
+        <div class="container">
+
+            <article class="signup">
+                <p class="label">이메일*</p>
+                <input class="input" type="text" id="email" placeholder="이메일을 입력하세요" />
+            </article>
+
+            <article class="helper-text">
+                <p class="email">* helper text</p>
+            </article>
+
+            <article class="signup">
+                <p class="label">비밀번호*</p>
+                <input class="input" type="text" id="password" placeholder="비밀번호를 입력하세요" />
+            </article>
+
+            <article class="helper-text">
+                <p class="password">* helper text</p>
+            </article>
+
+            <article class="signup">
+                <p class="label">비밀번호 확인*</p>
+                <input class="input" type="text" id="password-check" placeholder="비밀번호를 한 번 더 입력하세요" />
+            </article>
+
+            <article class="helper-text">
+                <p class="password-check">* helper text</p>
+            </article>
+
+            <article class="signup">
+                <p class="label">닉네임*</p>
+                <input class="input" type="text" id="nickname" placeholder="닉네임을 입력하세요" />
+            </article>
+
+            <article class="helper-text">
+                <p class="nickname">* helper text</p>
+            </article>
+
+            <article class="buttons">
+                <button class="button" id="signup-button">회원가입</button>
+            </article>
+
+            <article class="text">
+                <p class="login"><a href="../login/login.html">로그인하러 가기</a></p>
+            </article>
+        </div>
+
+    </section>
+    <script src="signup.js"></script>
+</body>
+
+</html>
