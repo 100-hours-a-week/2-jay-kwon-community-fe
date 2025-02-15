@@ -1,0 +1,134 @@
+/* 폰트 추가 */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
+
+/* 모든 요소에 box-sizing: border-box 적용 */
+* {
+    box-sizing: border-box;
+}
+
+/* 페이지 설정 */
+body {
+    display: flex;
+    justify-content: center;
+    background-color: #F4F5F7;
+    font-family: "Noto Sans KR", sans-serif;
+}
+.wrap {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: transparent;
+    padding: 10px 0;
+}
+
+/* 헤더 영역 */
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header .title,
+.description {
+    margin: 0;
+    padding: 0;
+    color: #000000;
+}
+
+.header .title {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+    margin-bottom: 10px;
+}
+
+/* 가로줄 구분선 */
+.horizontal-rule {
+    width: 100%;
+    height: 1px;
+    border: 0;
+    background-color: #000000;
+    margin: 10px auto 50px;
+}
+
+/* 로그인 박스 */
+.container {
+    width: 400px;
+    margin: 0 auto;
+}
+
+/* 텍스트 */
+.text {
+    color: #000000;
+    text-align: center;
+}
+.text .big {
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 150px;
+}
+.text .signup {
+    font-size: 14px;
+    cursor: pointer;
+}
+.text .helper {
+    font-size: 14px;
+    text-align: left;
+    color: #FF0000;
+    display: none;
+    margin-top: 5px;
+}
+
+/* 로그인 입력 부분 */
+.login {
+    color: #000000;
+    text-align: left;
+}
+.login .label {
+    font-size: 14px;
+    font-weight: bold;
+}
+.login .input {
+    width: 100%;
+    height: 30px;
+    font-weight: 700;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 5px;
+    border: 1px solid #ccc;
+
+    padding: 0 5px;
+}
+
+/* 버튼 */
+.buttons {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.buttons .button {
+    width: 100%;
+    height: 42px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #ACA0EB;
+    border-radius: 5px;
+    border: none;
+
+    text-decoration: none;
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 16px;
+    
+    cursor: pointer;
+}
