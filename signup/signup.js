@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', function () {
     passwordCheckInput.addEventListener('blur', validatePasswordCheck);
     nicknameInput.addEventListener('blur', validateNickname);
 
+    // 초기 상태 설정
+    updateSignupButtonState();
+
     function validateEmail() {
         const emailValue = emailInput.value.trim();
         const emailHelper = document.querySelector('.helper-text .email');
@@ -83,8 +86,10 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateSignupButtonState() {
         if (isFormValid()) {
             signupButton.disabled = false;
+            signupButton.style.cursor = 'pointer';
         } else {
             signupButton.disabled = true;
+            signupButton.style.cursor = 'default';
         }
     }
 
@@ -112,15 +117,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     signupButton.addEventListener('click', function (event) {
         event.preventDefault();
-        const user = {
-            email: emailInput.value.trim(),
-            password: passwordInput.value.trim(),
-            nickname: nicknameInput.value.trim()
-        };
 
         const originalColor = signupButton.style.backgroundColor;
         signupButton.style.backgroundColor = "#7F6AEE";
-        
+
         setTimeout(() => {
             signupButton.style.backgroundColor = originalColor; // 원래 색상으로 되돌림
             setTimeout(() => {
