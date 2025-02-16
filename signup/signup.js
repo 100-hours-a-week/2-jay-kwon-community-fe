@@ -99,16 +99,26 @@ document.addEventListener('DOMContentLoaded', function () {
                 imageContainer.style.backgroundPosition = 'center';
                 imageContainer.style.backgroundColor = 'transparent';
                 imageContainer.classList.add('uploaded');
+                updateSignupButtonState();
             };
             reader.readAsDataURL(file);
         } else {
             imageContainer.style.backgroundImage = '';
             imageContainer.style.backgroundColor = '#C4C4C4';
             imageContainer.classList.remove('uploaded');
+            updateSignupButtonState();
         }
     });
 
     function updateSignupButtonState() {
+        const profileHelper = document.querySelector('.helper-text .profile');
+        if (!imageContainer.classList.contains('uploaded')) {
+            profileHelper.textContent = '*프로필 사진을 추가해주세요';
+            profileHelper.style.display = 'block';
+        } else {
+            profileHelper.style.display = 'none';
+        }
+        
         if (isFormValid()) {
             signupButton.disabled = false;
             signupButton.style.cursor = 'pointer';
@@ -136,7 +146,8 @@ document.addEventListener('DOMContentLoaded', function () {
             passwordValue === passwordCheckValue &&
             nicknameValue !== "" &&
             !/\s/.test(nicknameValue) &&
-            nicknameValue.length <= 10
+            nicknameValue.length <= 10 &&
+            imageContainer.classList.contains('uploaded')
         );
     }
 
