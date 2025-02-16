@@ -101,6 +101,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 imageContainer.classList.add('uploaded');
             };
             reader.readAsDataURL(file);
+        } else {
+            imageContainer.style.backgroundImage = '';
+            imageContainer.style.backgroundColor = '#C4C4C4';
+            imageContainer.classList.remove('uploaded');
         }
     });
 
