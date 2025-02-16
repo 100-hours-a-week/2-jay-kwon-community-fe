@@ -59,6 +59,20 @@ body {
     position: relative;
 }
 
+.header .title,
+.description {
+    margin: 0;
+    padding: 0;
+    color: #000000;
+}
+
+.header .title {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+    margin-bottom: 10px;
+}
+
 .header-right .profile-image {
     width: 24px;
     height: 24px;
