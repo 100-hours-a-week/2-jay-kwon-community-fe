@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const modifyButton = document.getElementById('modify-button');
     const nicknameInput = document.getElementById('nickname');
     const nicknameHelper = document.querySelector('.helper-text .nickname');
+    const withdrawalLink = document.getElementById('withdrawal-link');
+    const modal = document.getElementById('withdrawal-modal');
+    const cancelWithdrawalButton = document.getElementById('cancel-withdrawal');
+    const confirmWithdrawalButton = document.getElementById('confirm-withdrawal');
 
     let oldNickname = "";
 
@@ -101,4 +105,24 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 500);
         }, 1000);
     }
+
+    // 회원 탈퇴 모달 제어
+    withdrawalLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        modal.style.display = 'block';
+    });
+
+    cancelWithdrawalButton.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+
+    confirmWithdrawalButton.addEventListener('click', function() {
+        window.location.href = '../../login/login.html';
+    });
 });

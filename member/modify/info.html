@@ -74,11 +74,22 @@
             </article>
 
             <article class="text">
-                <p class="withdrawal"><a href="../login/login.html">회원 탈퇴</a></p>
+                <p class="withdrawal"><a href="#" id="withdrawal-link">회원 탈퇴</a></p>
             </article>
         </div>
 
     </section>
+
+    <!-- 회원 탈퇴 모달 -->
+    <div id="withdrawal-modal" class="modal">
+        <div class="modal-content">
+            <h3>회원탈퇴 하시겠습니까?</h3>
+            <p>작성된 게시글과 댓글은 삭제됩니다.</p>
+            <button id="cancel-withdrawal" class="button">취소</button>
+            <button id="confirm-withdrawal" class="button">확인</button>
+        </div>
+    </div>
+    
     <script src="info.js"></script>
 </body>
 
