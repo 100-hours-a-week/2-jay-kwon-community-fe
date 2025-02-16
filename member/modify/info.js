@@ -9,6 +9,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const cancelWithdrawalButton = document.getElementById('cancel-withdrawal');
     const confirmWithdrawalButton = document.getElementById('confirm-withdrawal');
 
+    const profileImage = document.getElementById('profileImage');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+
+    profileImage.addEventListener('click', (event) => {
+        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+        event.stopPropagation();
+    });
+    document.addEventListener('click', () => {
+        dropdownMenu.style.display = 'none';
+    });
+
     let oldNickname = "";
 
     fetch("../../dummy/users.json")

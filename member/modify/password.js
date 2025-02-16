@@ -6,6 +6,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const passwordCheckHelper = document.querySelector('.helper-text .password-check');
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/;
 
+    const profileImage = document.getElementById('profileImage');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+
+    profileImage.addEventListener('click', (event) => {
+        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+        event.stopPropagation();
+    });
+    document.addEventListener('click', () => {
+        dropdownMenu.style.display = 'none';
+    });
+
     passwordInput.addEventListener('blur', validatePassword);
     passwordCheckInput.addEventListener('blur', validatePasswordCheck);
 
