@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
             helperText.textContent = "*비밀번호는 8자 이상, 20자 이하이며, 대문자, 소문자, 숫자, 특수문자를 각각 최소 1개 포함해야 합니다";
             helperText.style.display = "block";
         } else {
-            fetch('users.json')
+            fetch('../dummy/users.json')
                 .then(response => response.json())
                 .then(users => {
                     const user = users.find(user => user.email === emailValue && user.password === passwordValue);
