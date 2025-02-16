@@ -23,13 +23,29 @@ document.addEventListener('DOMContentLoaded', function () {
         if (emailValue === "") {
             emailHelper.textContent = '*이메일을 입력해주세요';
             emailHelper.style.display = 'block';
+            updateSignupButtonState();
         } else if (emailValue.length < 5 || !emailRegex.test(emailValue)) {
             emailHelper.textContent = '*올바른 이메일 주소 형식을 입력해주세요';
             emailHelper.style.display = 'block';
+            updateSignupButtonState();
         } else {
-            emailHelper.style.display = 'none';
+            fetch('../dummy/users.json')
+            .then(response => response.json())
+            .then(data => {
+                const isDuplicate = data.some(user => user.email === emailValue);
+                if (isDuplicate) {
+                    emailHelper.textContent = '*중복된 이메일입니다';
+                    emailHelper.style.display = 'block';
+                } else {
+                    emailHelper.style.display = 'none';
+                }
+                updateSignupButtonState();
+            })
+            .catch(error => {
+                console.error('이메일 중복 검사 에러:', error);
+                updateSignupButtonState();
+            });
         }
-        updateSignupButtonState();
     }
 
     function validatePassword() {
