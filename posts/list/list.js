@@ -47,6 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span class="post-author-name">${writerName}</span>
                 </div>
             `;
+                postItem.addEventListener('click', () => {
+                    window.location.href = `../detail/detail.html?id=${post.id}`;
+                });
                 postsList.appendChild(postItem);
             });
         })

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="kr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="detail.css" />
+    <title>게시글 상세 조회 페이지</title>
+</head>
+
+<body>
+    <section class="wrap">
+        <div class="container">
+            <article class="post-header">
+                <h2 class="post-title" id="post-title"></h2>
+                <div class="post-meta">
+                    <div class="post-meta-left">
+                        <img src="../../dummy/images/default.png" alt="작성자 프로필" class="post-author-image"
+                            id="post-author-image">
+                        <span class="post-author" id="post-author"></span>
+                        <span class="post-date" id="post-date"></span>
+                    </div>
+                    <div class="post-meta-right">
+                        <button class="button" id="edit-button">수정</button>
+                        <button class="button" id="delete-button">삭제</button>
+                    </div>
+                </div>
+            </article>
+
+            <hr class="post-horizontal-rule" />
+
+            <img id="post-image" class="post-image" alt="게시글 이미지" style="display: none;" />
+
+            <article class="post-content" id="post-content"></article>
+
+            <article class="post-stats">
+                <div class="stat-card">
+                    <p class="stat-number" id="post-likes"></p>
+                    <p class="stat-label">좋아요수</p>
+                </div>
+                <div class="stat-card">
+                    <p class="stat-number" id="post-views"></p>
+                    <p class="stat-label">조회수</p>
+                </div>
+                <div class="stat-card">
+                    <p class="stat-number" id="post-comments"></p>
+                    <p class="stat-label">댓글</p>
+                </div>
+            </article>
+
+            <br>
+
+            <hr class="post-horizontal-rule" />
+
+            <div class="comment-input-card">
+                <textarea id="comment-input" placeholder="댓글을 남겨주세요!"></textarea>
+
+                <div class="comment-input-horizontal-rule"></div>
+
+                <button class="comment-input-button" id="comment-input-button">댓글 등록</button>
+            </div>
+
+            <div id="comment-list"></div>
+
+        </div>
+    </section>
+    <script src="detail.js"></script>
+</body>
+
+</html>
