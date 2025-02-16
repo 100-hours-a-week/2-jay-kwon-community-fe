@@ -1,4 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+    const profileImage = document.getElementById('profileImage');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+
+    profileImage.addEventListener('click', (event) => {
+        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+        event.stopPropagation();
+    });
+    document.addEventListener('click', () => {
+        dropdownMenu.style.display = 'none';
+    });
     
     function formatCount(count) {
         if (count >= 1000) {
