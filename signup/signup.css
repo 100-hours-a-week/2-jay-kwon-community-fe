@@ -163,6 +163,11 @@ body {
     height: 1px;
 }
 
+.profile .image.uploaded::before,
+.profile .image.uploaded::after {
+    display: none;
+}
+
 /* 회원 정보 입력 부분 */
 .signup {
     color: #000000;

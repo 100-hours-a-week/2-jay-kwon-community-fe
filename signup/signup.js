@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const passwordCheckInput = document.getElementById('password-check');
     const nicknameInput = document.getElementById('nickname');
     const signupButton = document.getElementById('signup-button');
+    const imageContainer = document.querySelector('.profile .image');
+    const fileInput = document.getElementById('profile-img-upload');
 
     emailInput.addEventListener('blur', validateEmail);
     passwordInput.addEventListener('blur', validatePassword);
@@ -82,6 +84,25 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         updateSignupButtonState();
     }
+
+    imageContainer.addEventListener('click', function() {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imageContainer.style.backgroundImage = `url(${e.target.result})`;
+                imageContainer.style.backgroundSize = 'cover';
+                imageContainer.style.backgroundPosition = 'center';
+                imageContainer.style.backgroundColor = 'transparent';
+                imageContainer.classList.add('uploaded');
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 
     function updateSignupButtonState() {
         if (isFormValid()) {
