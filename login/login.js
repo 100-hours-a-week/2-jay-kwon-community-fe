@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         setTimeout(() => {
                             loginButton.style.backgroundColor = originalColor; // 원래 색상으로 되돌림
                             setTimeout(() => {
-                                window.location.href = "posts.html"; // 페이지 이동
+                                window.location.href = "../posts/list/list.html"; // 페이지 이동
                             }, 500); // 0.5초 후 페이지 이동
                         }, 500); // 0.5초 동안 색상 유지
                     } else {
