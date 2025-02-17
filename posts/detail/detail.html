@@ -40,7 +40,8 @@
                 <h2 class="post-title" id="post-title"></h2>
                 <div class="post-meta">
                     <div class="post-meta-left">
-                        <img src="../../dummy/images/default_profile.png" alt="작성자 프로필" class="post-author-image" id="post-author-image">
+                        <img src="../../dummy/images/default_profile.png" alt="작성자 프로필" class="post-author-image"
+                            id="post-author-image">
                         <span class="post-author" id="post-author"></span>
                         <span class="post-date" id="post-date"></span>
                     </div>
@@ -88,6 +89,17 @@
 
         </div>
     </section>
+
+    <!-- 삭제 확인 모달 -->
+    <div id="delete-confirm-modal" class="modal">
+        <div class="modal-content">
+            <h3>댓글을 삭제하시겠습니까?</h3>
+            <p>삭제한 내용은 복구할 수 없습니다.</p>
+            <button id="cancel-delete-button" class="button">취소</button>
+            <button id="confirm-delete-button" class="button">확인</button>
+        </div>
+    </div>
+
     <script src="detail.js"></script>
 </body>
 

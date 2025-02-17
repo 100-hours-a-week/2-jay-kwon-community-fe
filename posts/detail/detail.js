@@ -23,6 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const commentInput = document.getElementById('comment-input');
         const commentInputButton = document.getElementById('comment-input-button');
 
+        // 삭제 모드: 'comment' 또는 'post'
+        let deletionMode = null;
+        let currentDeleteIndex = null; // 댓글 삭제 시 인덱스
+        let editingIndex = null; // 수정 중인 댓글 인덱스 (없으면 null)
+
         if (post) {
             document.getElementById('post-title').textContent = post.title;
             document.getElementById('post-date').textContent = post.date;
@@ -70,8 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 댓글 리스트 렌더링
             const commentList = document.getElementById('comment-list');
-            let editingIndex = null; // 수정 중인 댓글의 인덱스 (없으면 null)
-
             const renderComments = () => {
                 commentList.innerHTML = '';
                 post.comments.forEach((comment, index) => {
@@ -82,7 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     commentCard.setAttribute('data-index', index);
                     commentCard.innerHTML = `
                         <div class="comment-header">
-                            <img src="${commenter && commenter.profile ? commenter.profile.image : '../../dummy/images/default_profile.png'}" alt="Profile Image" class="comment-author-image">
+                            <img src="${commenter && commenter.profile ? commenter.profile.image : '../../dummy/images/default_profile.png'}" 
+                                 alt="Profile Image" class="comment-author-image">
                             <span class="comment-author-name">
                                 ${commenter && commenter.profile ? commenter.profile.nickname : '알 수 없음'}
                             </span>
@@ -106,11 +110,50 @@ document.addEventListener('DOMContentLoaded', () => {
                             commentInputButton.style.cursor = 'pointer';
                             commentInputButton.style.backgroundColor = '#7F6AEE';
                         });
+                        const deleteButton = commentCard.querySelector('.comment-delete-button');
+                        deleteButton.addEventListener('click', () => {
+                            currentDeleteIndex = index;
+                            deletionMode = 'comment';
+                            const modal = document.getElementById('delete-confirm-modal');
+                            modal.querySelector('h3').textContent = "댓글을 삭제하시겠습니까?";
+                            modal.querySelector('p').textContent = "삭제한 내용은 복구할 수 없습니다.";
+                            modal.style.display = 'block';
+                        });
                     }
                 });
             };
 
             renderComments();
+
+            // 모달 내 버튼 이벤트 등록 (댓글, 게시글 삭제 공용)
+            const modal = document.getElementById('delete-confirm-modal');
+            const cancelDeleteButton = document.getElementById('cancel-delete-button');
+            const confirmDeleteButton = document.getElementById('confirm-delete-button');
+
+            cancelDeleteButton.addEventListener('click', () => {
+                modal.style.display = 'none';
+                currentDeleteIndex = null;
+                deletionMode = null;
+            });
+
+            confirmDeleteButton.addEventListener('click', () => {
+                if (deletionMode === 'comment' && currentDeleteIndex !== null) {
+                    post.comments.splice(currentDeleteIndex, 1);
+                    localStorage.setItem('posts', JSON.stringify(posts));
+                    renderComments();
+                } else if (deletionMode === 'post') {
+                    // 게시글 삭제 수행 후 목록 페이지로 이동
+                    const postIndex = posts.findIndex(p => p.id === post.id);
+                    if (postIndex !== -1) {
+                        posts.splice(postIndex, 1);
+                        localStorage.setItem('posts', JSON.stringify(posts));
+                    }
+                    window.location.href = '../list/list.html';
+                }
+                modal.style.display = 'none';
+                currentDeleteIndex = null;
+                deletionMode = null;
+            });
 
             // 댓글 입력 버튼 초기 상태: 비활성화
             commentInputButton.disabled = true;
@@ -132,8 +175,6 @@ document.addEventListener('DOMContentLoaded', () => {
             commentInputButton.addEventListener('click', () => {
                 const content = commentInput.value.trim();
                 if (!content) return;
-
-                // 수정 모드인 경우
                 if (editingIndex !== null) {
                     post.comments[editingIndex].content = content;
                     post.comments[editingIndex].date = new Date().toLocaleString('ko-KR');
@@ -142,11 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     editingIndex = null;
                     commentInput.value = '';
                     commentInputButton.innerText = '댓글 등록';
-                    commentInputButton.disabled = true;
-                    commentInputButton.style.cursor = 'default';
-                    commentInputButton.style.backgroundColor = '#ACA0EB';
                 } else {
-                    // 새로운 댓글 등록
                     const newComment = {
                         writerId: loggedInUser.id,
                         content: content,
@@ -156,10 +193,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.setItem('posts', JSON.stringify(posts));
                     renderComments();
                     commentInput.value = '';
-                    commentInputButton.disabled = true;
-                    commentInputButton.style.cursor = 'default';
-                    commentInputButton.style.backgroundColor = '#ACA0EB';
                 }
+                commentInputButton.disabled = true;
+                commentInputButton.style.cursor = 'default';
+                commentInputButton.style.backgroundColor = '#ACA0EB';
+            });
+
+            // 게시글 삭제 버튼 이벤트 등록
+            const deletePostButton = document.getElementById('delete-button');
+            deletePostButton.addEventListener('click', () => {
+                deletionMode = 'post';
+                const modal = document.getElementById('delete-confirm-modal');
+                modal.querySelector('h3').textContent = "게시글을 삭제하시겠습니까?";
+                modal.style.display = 'block';
             });
         }
     }
