@@ -9,6 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
         profileImage.src = loggedInUser.profile.image;
     }
 
+    function formatCount(count) {
+        if (count >= 100000) return '100K';
+        if (count >= 10000) return '10K';
+        if (count >= 1000) return '1K';
+        return count;
+    }
+
     if (postId) {
         const posts = JSON.parse(localStorage.getItem('posts')) || [];
         const post = posts.find(post => post.id === parseInt(postId));
@@ -16,9 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('post-title').textContent = post.title;
             document.getElementById('post-date').textContent = post.date;
             document.getElementById('post-content').textContent = post.content;
-            document.getElementById('post-likes').textContent = post.likes;
-            document.getElementById('post-views').textContent = post.views;
-            document.getElementById('post-comments').textContent = post.comments.length;
+            document.getElementById('post-likes').textContent = formatCount(post.likes);
+            document.getElementById('post-views').textContent = formatCount(post.views);
+            document.getElementById('post-comments').textContent = formatCount(post.comments.length);
 
             if (post.image) {
                 const postImage = document.getElementById('post-image');
@@ -35,6 +42,27 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 document.getElementById('post-author').textContent = '알 수 없음';
             }
+
+            // 좋아요수 버튼 기능 구현
+            /* 실제로 해당 게시글의 좋아요수에 반영되진 않음 */
+            const likeStatCard = document.querySelectorAll('.stat-card')[0];
+            let isLiked = false;
+            let currentLikes = post.likes; // 원본 좋아요 수
+
+            likeStatCard.style.backgroundColor = '#D9D9D9';
+
+            likeStatCard.addEventListener('click', () => {
+                if (!isLiked) {
+                    currentLikes++;
+                    likeStatCard.style.backgroundColor = '#ACA0EB';
+                    isLiked = true;
+                } else {
+                    currentLikes--;
+                    likeStatCard.style.backgroundColor = '#D9D9D9';
+                    isLiked = false;
+                }
+                document.getElementById('post-likes').textContent = formatCount(currentLikes);
+            });
 
             // 댓글 리스트 렌더링
             const commentList = document.getElementById('comment-list');
