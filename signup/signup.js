@@ -89,7 +89,15 @@ document.addEventListener('DOMContentLoaded', function () {
             nicknameHelper.textContent = '*닉네임은 최대 10자까지 작성 가능합니다';
             nicknameHelper.style.display = 'block';
         } else {
-            nicknameHelper.style.display = 'none';
+            // 닉네임 중복 확인 로직 추가
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const isDuplicate = users.some(user => user.profile && user.profile.nickname === nicknameValue);
+            if (isDuplicate) {
+                nicknameHelper.textContent = '*중복된 닉네임입니다';
+                nicknameHelper.style.display = 'block';
+            } else {
+                nicknameHelper.style.display = 'none';
+            }
         }
         updateSignupButtonState();
     }
