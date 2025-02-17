@@ -156,6 +156,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/;
 
+        // 닉네임 중복 여부 확인
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const isDuplicateNickname = users.some(user => user.profile && user.profile.nickname === nicknameValue);
+
         return (
             emailValue !== "" &&
             emailValue.length >= 5 &&
@@ -166,6 +170,7 @@ document.addEventListener('DOMContentLoaded', function () {
             nicknameValue !== "" &&
             !/\s/.test(nicknameValue) &&
             nicknameValue.length <= 10 &&
+            !isDuplicateNickname &&
             imageContainer.classList.contains('uploaded')
         );
     }
