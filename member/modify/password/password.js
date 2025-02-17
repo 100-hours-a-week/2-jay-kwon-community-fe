@@ -1,4 +1,37 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+    const modifyButton = document.getElementById('modify-button');
+    const passwordInput = document.getElementById('password');
+    const passwordCheckInput = document.getElementById('password-check');
+    const passwordHelper = document.querySelector('.helper-text .password');
+    const passwordCheckHelper = document.querySelector('.helper-text .password-check');
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/;
+
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    profileImage.addEventListener('click', (event) => {
+        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+        event.stopPropagation();
+    });
+    document.addEventListener('click', () => {
+        dropdownMenu.style.display = 'none';
+    });
+
+    // 드롭다운 메뉴 항목 클릭 이벤트 처리
+    const menuItems = dropdownMenu.querySelectorAll('li');
+    menuItems.forEach((item) => {
+        item.addEventListener('click', (e) => {
+            const action = e.target.textContent.trim();
+            if (action === '회원정보 수정') {
+                window.location.href = '../info/info.html';
+            } else if (action === '비밀번호 수정') {
+                window.location.href = 'password.html';
+            } else if (action === '로그아웃') {
+                localStorage.removeItem('loggedInUser');
+                window.location.href = '../../login/login.html';
+            }
+        });
+    });
+
     // loggedInUser 정보 가져오기 및 검증
     const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
     if (loggedInUser && loggedInUser.profile) {
@@ -16,22 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // 로그인 정보가 없으면 로그인 페이지로 리디렉션
         window.location.href = '../../login/login.html';
     }
-
-    const modifyButton = document.getElementById('modify-button');
-    const passwordInput = document.getElementById('password');
-    const passwordCheckInput = document.getElementById('password-check');
-    const passwordHelper = document.querySelector('.helper-text .password');
-    const passwordCheckHelper = document.querySelector('.helper-text .password-check');
-    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/;
-
-    const dropdownMenu = document.getElementById('dropdownMenu');
-    profileImage.addEventListener('click', (event) => {
-        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
-        event.stopPropagation();
-    });
-    document.addEventListener('click', () => {
-        dropdownMenu.style.display = 'none';
-    });
 
     passwordInput.addEventListener('blur', validatePassword);
     passwordCheckInput.addEventListener('blur', validatePasswordCheck);
@@ -91,12 +108,12 @@ document.addEventListener('DOMContentLoaded', () => {
         );
     }
 
-    modifyButton.addEventListener('click', function(event) {
+    modifyButton.addEventListener('click', function (event) {
         event.preventDefault();
-    
+
         const originalColor = modifyButton.style.backgroundColor;
         modifyButton.style.backgroundColor = "#7F6AEE";
-    
+
         setTimeout(() => {
             modifyButton.style.backgroundColor = originalColor;
             // 새로운 비밀번호 업데이트

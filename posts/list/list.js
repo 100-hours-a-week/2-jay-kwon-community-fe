@@ -9,12 +9,29 @@ document.addEventListener('DOMContentLoaded', () => {
         profileImage.src = loggedInUser.profile.image;
     }
 
+    // 드롭다운 메뉴 제어
     profileImage.addEventListener('click', (event) => {
         dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
         event.stopPropagation();
     });
     document.addEventListener('click', () => {
         dropdownMenu.style.display = 'none';
+    });
+
+    // 드롭다운 메뉴 항목 클릭 이벤트 처리
+    const menuItems = dropdownMenu.querySelectorAll('li');
+    menuItems.forEach((item) => {
+        item.addEventListener('click', (e) => {
+            const action = e.target.textContent.trim();
+            if (action === '회원정보 수정') {
+                window.location.href = '../../member/modify/info/info.html';
+            } else if (action === '비밀번호 수정') {
+                window.location.href = '../../member/modify/password/password.html';
+            } else if (action === '로그아웃') {
+                localStorage.removeItem('loggedInUser');
+                window.location.href = '../../login/login.html';
+            }
+        });
     });
 
     function formatCount(count) {

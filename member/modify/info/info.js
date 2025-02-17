@@ -20,6 +20,22 @@ document.addEventListener('DOMContentLoaded', () => {
         dropdownMenu.style.display = 'none';
     });
 
+    // 드롭다운 메뉴 항목 클릭 이벤트 처리
+    const menuItems = dropdownMenu.querySelectorAll('li');
+    menuItems.forEach((item) => {
+        item.addEventListener('click', (e) => {
+            const action = e.target.textContent.trim();
+            if (action === '회원정보 수정') {
+                window.location.href = 'info.html';
+            } else if (action === '비밀번호 수정') {
+                window.location.href = '../password/password.html';
+            } else if (action === '로그아웃') {
+                localStorage.removeItem('loggedInUser');
+                window.location.href = '../../login/login.html';
+            }
+        });
+    });
+
     let oldNickname = "";
 
     // localStorage에서 로그인된 사용자 정보를 가져옴
@@ -27,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loggedInUser && loggedInUser.profile) {
         oldNickname = loggedInUser.profile.nickname || "";
         nicknameInput.placeholder = oldNickname;
-        
+
         // 프로필 이미지 업데이트 (변경되어 있다면 imageContainer와 header의 profileImage에도 적용)
         if (loggedInUser.profile.image) {
             imageContainer.style.backgroundImage = `url(${loggedInUser.profile.image})`;
@@ -45,15 +61,15 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '../../login/login.html';
     }
 
-    imageContainer.addEventListener('click', function() {
+    imageContainer.addEventListener('click', function () {
         fileInput.click();
     });
 
-    fileInput.addEventListener('change', function(event) {
+    fileInput.addEventListener('change', function (event) {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 const imageData = e.target.result;
                 // 프로필 이미지 변경 업데이트
                 imageContainer.style.backgroundImage = `url(${imageData})`;
@@ -78,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    modifyButton.addEventListener('click', function(event) {
+    modifyButton.addEventListener('click', function (event) {
         event.preventDefault();
 
         let nicknameValue = nicknameInput.value.trim();
@@ -145,22 +161,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 회원 탈퇴 모달 제어
-    withdrawalLink.addEventListener('click', function(event) {
+    withdrawalLink.addEventListener('click', function (event) {
         event.preventDefault();
         modal.style.display = 'block';
     });
 
-    cancelWithdrawalButton.addEventListener('click', function() {
+    cancelWithdrawalButton.addEventListener('click', function () {
         modal.style.display = 'none';
     });
 
-    window.addEventListener('click', function(event) {
+    window.addEventListener('click', function (event) {
         if (event.target === modal) {
             modal.style.display = 'none';
         }
     });
 
-    confirmWithdrawalButton.addEventListener('click', function() {
+    confirmWithdrawalButton.addEventListener('click', function () {
         window.location.href = '../../login/login.html';
     });
 });
