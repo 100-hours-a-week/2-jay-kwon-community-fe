@@ -139,9 +139,11 @@ document.addEventListener('DOMContentLoaded', function () {
         if (isFormValid()) {
             signupButton.disabled = false;
             signupButton.style.cursor = 'pointer';
+            signupButton.style.backgroundColor = '#7F6AEE';
         } else {
             signupButton.disabled = true;
             signupButton.style.cursor = 'default';
+            signupButton.style.backgroundColor = '#ACA0EB';
         }
     }
 
