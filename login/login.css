@@ -153,3 +153,7 @@ body {
     
     cursor: pointer;
 }
+
+.buttons .button:hover {
+    background-color: #7F6AEE;
+}
