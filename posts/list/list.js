@@ -74,4 +74,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         postsList.appendChild(postItem);
     });
+
+    // 게시글 작성 버튼 클릭 시 write.html로 이동
+    const signupButton = document.getElementById('signup-button');
+    signupButton.addEventListener('click', () => {
+        window.location.href = '../write/write.html';
+    });
 });
