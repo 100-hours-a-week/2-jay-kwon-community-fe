@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             post.comments.forEach(comment => {
                 const commenter = users.find(u => u.id === comment.writerId);
+                const isOwnComment = loggedInUser && comment.writerId === loggedInUser.id;
                 const commentCard = document.createElement('div');
                 commentCard.className = 'comment-item';
                 commentCard.innerHTML = `
@@ -51,6 +52,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             ${commenter && commenter.profile ? commenter.profile.nickname : '알 수 없음'}
                         </span>
                         <span class="comment-date">${comment.date}</span>
+                        ${isOwnComment ? `<button class="comment-edit-button">수정</button>
+                                          <button class="comment-delete-button">삭제</button>` : ''}
                     </div>
                     <div class="comment-body">
                         <p class="comment-content">${comment.content}</p>

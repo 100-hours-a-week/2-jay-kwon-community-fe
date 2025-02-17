@@ -395,6 +395,7 @@ body {
     font-size: 12px;
     color: #888888;
     margin-left: 10px;
+    margin-right: auto;
 }
 
 /* 댓글 본문 */
@@ -407,4 +408,35 @@ body {
 .comment-content {
     font-size: 14px;
     color: #000000;
+}
+
+/* 댓글 수정, 삭제 버튼 스타일 */
+.comment-edit-button,
+.comment-delete-button {
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.comment-edit-button {
+    background-color: transparent;
+    border: 1px solid #ACA0EB;
+    color: #000000;
+}
+
+.comment-edit-button:hover {
+    background-color: #ACA0EB;
+}
+
+.comment-delete-button {
+    background-color: transparent;
+    border: 1px solid #ACA0EB;
+    color: #000000;
+}
+
+.comment-delete-button:hover {
+    background-color: #ACA0EB;
 }
