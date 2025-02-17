@@ -1,4 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+    // 드롭다운 메뉴 기능 구현
+    const profileImage = document.getElementById('profileImage');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+
+    profileImage.addEventListener('click', (e) => {
+        e.stopPropagation(); // 상위 요소로 클릭 이벤트 전파 방지
+        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    });
+    document.addEventListener('click', () => {
+        dropdownMenu.style.display = 'none';
+    });
+    
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('id');
 
