@@ -52,6 +52,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('post-author').textContent = '알 수 없음';
             }
 
+            // 게시글 수정, 삭제 버튼 보이기/숨기기 처리
+            const editPostButton = document.getElementById('edit-button');
+            const deletePostButton = document.getElementById('delete-button');
+            if (loggedInUser && loggedInUser.id === post.writerId) {
+                editPostButton.style.display = 'inline-block';
+                deletePostButton.style.display = 'inline-block';
+            } else {
+                editPostButton.style.display = 'none';
+                deletePostButton.style.display = 'none';
+            }
+
             // 좋아요수 버튼 기능 구현
             /* 실제로 해당 게시글의 좋아요수에 반영되진 않음 */
             const likeStatCard = document.querySelectorAll('.stat-card')[0];
@@ -200,7 +211,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             // 게시글 삭제 버튼 이벤트 등록
-            const deletePostButton = document.getElementById('delete-button');
             deletePostButton.addEventListener('click', () => {
                 deletionMode = 'post';
                 const modal = document.getElementById('delete-confirm-modal');
