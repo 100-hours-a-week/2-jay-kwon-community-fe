@@ -353,12 +353,7 @@ body {
     border: none;
     border-radius: 20px;
     font-size: 14px;
-    cursor: pointer;
     transition: background-color 0.3s ease;
-}
-
-.comment-input-button:hover {
-    background-color: #7F6AEE;
 }
 
 /* 댓글 아이템 */
