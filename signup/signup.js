@@ -29,22 +29,15 @@ document.addEventListener('DOMContentLoaded', function () {
             emailHelper.style.display = 'block';
             updateSignupButtonState();
         } else {
-            fetch('../dummy/users.json')
-            .then(response => response.json())
-            .then(data => {
-                const isDuplicate = data.some(user => user.email === emailValue);
-                if (isDuplicate) {
-                    emailHelper.textContent = '*중복된 이메일입니다';
-                    emailHelper.style.display = 'block';
-                } else {
-                    emailHelper.style.display = 'none';
-                }
-                updateSignupButtonState();
-            })
-            .catch(error => {
-                console.error('이메일 중복 검사 에러:', error);
-                updateSignupButtonState();
-            });
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const isDuplicate = users.some(user => user.email === emailValue);
+            if (isDuplicate) {
+                emailHelper.textContent = '*중복된 이메일입니다';
+                emailHelper.style.display = 'block';
+            } else {
+                emailHelper.style.display = 'none';
+            }
+            updateSignupButtonState();
         }
     }
 
@@ -170,16 +163,34 @@ document.addEventListener('DOMContentLoaded', function () {
     signupButton.addEventListener('click', function (event) {
         event.preventDefault();
 
+        const emailValue = emailInput.value.trim();
+        const passwordValue = passwordInput.value.trim();
+        const nicknameValue = nicknameInput.value.trim();
+        const profileImage = imageContainer.style.backgroundImage.slice(5, -2);
+
+        const newUser = {
+            id: Date.now(), // 고유 ID 생성
+            profile: {
+                nickname: nicknameValue,
+                image: profileImage
+            },
+            email: emailValue,
+            password: passwordValue
+        };
+
+        // 로컬 스토리지에서 users 데이터를 가져옴
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        users.push(newUser);
+        localStorage.setItem('users', JSON.stringify(users));
+
         const originalColor = signupButton.style.backgroundColor;
         signupButton.style.backgroundColor = "#7F6AEE";
 
         setTimeout(() => {
             signupButton.style.backgroundColor = originalColor; // 원래 색상으로 되돌림
             setTimeout(() => {
-                /* 사용자 정보 추가 로직 구현 필요 */
                 window.location.href = "../login/login.html"; // 페이지 이동
             }, 500); // 0.5초 후 페이지 이동
         }, 500); // 0.5초 동안 색상 유지
-
     });
 });

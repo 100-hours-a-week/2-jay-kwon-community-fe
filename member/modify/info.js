@@ -8,10 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('withdrawal-modal');
     const cancelWithdrawalButton = document.getElementById('cancel-withdrawal');
     const confirmWithdrawalButton = document.getElementById('confirm-withdrawal');
-
     const profileImage = document.getElementById('profileImage');
     const dropdownMenu = document.getElementById('dropdownMenu');
 
+    // 드롭다운 메뉴 제어
     profileImage.addEventListener('click', (event) => {
         dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
         event.stopPropagation();
@@ -22,18 +22,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let oldNickname = "";
 
-    fetch("../../dummy/users.json")
-        .then(response => response.json())
-        .then(data => {
-            const user = data.find(user => user.email === "sample@example.com");
-            if (user && user.profile && user.profile.nickname) {
-                oldNickname = user.profile.nickname;
-                nicknameInput.placeholder = oldNickname;
+    // localStorage에서 로그인된 사용자 정보를 가져옴
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    if (loggedInUser && loggedInUser.profile) {
+        oldNickname = loggedInUser.profile.nickname || "";
+        nicknameInput.placeholder = oldNickname;
+        
+        // 프로필 이미지 업데이트 (변경되어 있다면 imageContainer와 header의 profileImage에도 적용)
+        if (loggedInUser.profile.image) {
+            imageContainer.style.backgroundImage = `url(${loggedInUser.profile.image})`;
+            profileImage.src = loggedInUser.profile.image;
+        }
+        // 이메일 업데이트: 현재 로그인된 사용자의 이메일을 표시
+        if (loggedInUser.email) {
+            const emailDisplay = document.querySelector('.email');
+            if (emailDisplay) {
+                emailDisplay.textContent = loggedInUser.email;
             }
-        })
-        .catch(error => {
-            console.error("회원 정보 불러오기 에러:", error);
-        });
+        }
+    } else {
+        // 로그인 정보가 없는 경우 로그인 페이지로 리디렉션
+        window.location.href = '../../login/login.html';
+    }
 
     imageContainer.addEventListener('click', function() {
         fileInput.click();
@@ -44,14 +54,26 @@ document.addEventListener('DOMContentLoaded', () => {
         if (file) {
             const reader = new FileReader();
             reader.onload = function(e) {
-                imageContainer.style.backgroundImage = `url(${e.target.result})`;
-                imageContainer.style.backgroundSize = 'cover';
-                imageContainer.style.backgroundPosition = 'center';
-                imageContainer.style.backgroundColor = 'transparent';
+                const imageData = e.target.result;
+                // 프로필 이미지 변경 업데이트
+                imageContainer.style.backgroundImage = `url(${imageData})`;
+                profileImage.src = imageData;
+                // loggedInUser 업데이트
+                if (loggedInUser && loggedInUser.profile) {
+                    loggedInUser.profile.image = imageData;
+                    localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
+                    // users 배열에서 현재 사용자를 찾아 업데이트
+                    const users = JSON.parse(localStorage.getItem('users')) || [];
+                    const index = users.findIndex(user => user.id === loggedInUser.id);
+                    if (index !== -1) {
+                        users[index].profile.image = imageData;
+                        localStorage.setItem('users', JSON.stringify(users));
+                    }
+                }
             };
             reader.readAsDataURL(file);
         } else {
-            imageContainer.style.backgroundImage = `url("../../dummy/images/default.png")`;
+            imageContainer.style.backgroundImage = `url("../../dummy/images/default_profile.png")`;
             imageContainer.style.backgroundColor = '#C4C4C4';
         }
     });
@@ -66,37 +88,42 @@ document.addEventListener('DOMContentLoaded', () => {
             nicknameValue = oldNickname;
         }
 
-        // 닉네임이 10자 초과일 경우
+        // 닉네임이 10자 초과면 오류 메시지 표시
         if (nicknameValue.length > 10) {
             nicknameHelper.textContent = '*닉네임은 최대 10자까지 작성 가능합니다';
             nicknameHelper.style.display = 'block';
             return;
         }
 
-        // 입력된 닉네임이 기존 닉네임과 같다면 별도 중복 체크 없이 통과
+        // 입력된 닉네임이 기존 닉네임과 같다면 중복 검사 없이 통과
         if (nicknameValue === oldNickname) {
             showToast();
             return;
         }
 
-        // 그 외에만 중복 닉네임 검사
-        fetch("../../dummy/users.json")
-            .then(response => response.json())
-            .then(data => {
-                const isDuplicate = data.some(
-                    user => user.profile && user.profile.nickname === nicknameValue
-                );
-                if (isDuplicate) {
-                    nicknameHelper.textContent = '*중복된 닉네임입니다';
-                    nicknameHelper.style.display = 'block';
-                } else {
-                    nicknameHelper.style.display = 'none';
-                    showToast();
+        // users 배열에서 중복 검사 진행
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const isDuplicate = users.some(
+            user => user.profile && user.profile.nickname === nicknameValue
+        );
+        if (isDuplicate) {
+            nicknameHelper.textContent = '*중복된 닉네임입니다';
+            nicknameHelper.style.display = 'block';
+        } else {
+            nicknameHelper.style.display = 'none';
+            showToast();
+            // loggedInUser의 닉네임 업데이트
+            if (loggedInUser && loggedInUser.profile) {
+                loggedInUser.profile.nickname = nicknameValue;
+                localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
+                // users 배열에서 현재 사용자 정보 업데이트
+                const updatedIndex = users.findIndex(user => user.id === loggedInUser.id);
+                if (updatedIndex !== -1) {
+                    users[updatedIndex].profile.nickname = nicknameValue;
+                    localStorage.setItem('users', JSON.stringify(users));
                 }
-            })
-            .catch(error => {
-                console.error("닉네임 중복 검사 에러:", error);
-            });
+            }
+        }
     });
 
     function showToast() {

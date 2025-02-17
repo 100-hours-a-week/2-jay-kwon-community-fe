@@ -1,4 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // loggedInUser 정보 가져오기 및 검증
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    if (loggedInUser && loggedInUser.profile) {
+        // 헤더 프로필 이미지 업데이트
+        const profileImage = document.getElementById('profileImage');
+        if (loggedInUser.profile.image) {
+            profileImage.src = loggedInUser.profile.image;
+        }
+        // 이메일 업데이트 (만약 .email 요소가 존재한다면)
+        const emailDisplay = document.querySelector('.email');
+        if (emailDisplay && loggedInUser.email) {
+            emailDisplay.textContent = loggedInUser.email;
+        }
+    } else {
+        // 로그인 정보가 없으면 로그인 페이지로 리디렉션
+        window.location.href = '../../login/login.html';
+    }
+
     const modifyButton = document.getElementById('modify-button');
     const passwordInput = document.getElementById('password');
     const passwordCheckInput = document.getElementById('password-check');
@@ -6,9 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const passwordCheckHelper = document.querySelector('.helper-text .password-check');
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/;
 
-    const profileImage = document.getElementById('profileImage');
     const dropdownMenu = document.getElementById('dropdownMenu');
-
     profileImage.addEventListener('click', (event) => {
         dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
         event.stopPropagation();
@@ -77,16 +93,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     modifyButton.addEventListener('click', function(event) {
         event.preventDefault();
-
+    
         const originalColor = modifyButton.style.backgroundColor;
         modifyButton.style.backgroundColor = "#7F6AEE";
-
+    
         setTimeout(() => {
-            modifyButton.style.backgroundColor = originalColor; // 원래 색상으로 되돌림
+            modifyButton.style.backgroundColor = originalColor;
+            // 새로운 비밀번호 업데이트
+            const newPassword = passwordInput.value.trim();
+            // loggedInUser 업데이트
+            if (loggedInUser) {
+                loggedInUser.password = newPassword;
+                localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
+            }
+            // users 배열에서 현재 사용자 업데이트
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const userIndex = users.findIndex(user => user.id === loggedInUser.id);
+            if (userIndex !== -1) {
+                users[userIndex].password = newPassword;
+                localStorage.setItem('users', JSON.stringify(users));
+            }
             setTimeout(() => {
                 showToast();
-            }, 500); // 0.5초 후 페이지 이동
-        }, 500); // 0.5초 동안 색상 유지
+            }, 500);
+        }, 500);
     });
 
     function showToast() {
