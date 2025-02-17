@@ -142,7 +142,6 @@ body {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    background-image: url("../../dummy/images/default.png");
     background-size: cover;
     background-position: center;
 }
