@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "profile": {
+            "image": "default_profile.png",
+            "nickname": "더미 작성자 1"
+        },
+        "email": "dummy@example.com",
+        "password": "Dummy123!"
+    },
+    {
+        "id": 2,
+        "profile": {
+            "image": "default_profile.png",
+            "nickname": "더미 작성자 2"
+        },
+        "email": "dummy2@example.com",
+        "password": "Dummy123@"
+    }
+]
