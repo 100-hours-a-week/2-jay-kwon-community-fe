@@ -23,5 +23,5 @@
 - 게시글 삭제 모달
 ![image](https://github.com/user-attachments/assets/38fec09e-ea3a-477b-a3de-9772c642587f)
 
-- 드롭박스
+- 드롭 박스
 ![image](https://github.com/user-attachments/assets/ad5fd86c-75a4-488c-b5ab-8e7b6925ce76)
