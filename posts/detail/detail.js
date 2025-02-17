@@ -220,12 +220,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            commentInputButton.addEventListener('click', () => {
+                        commentInputButton.addEventListener('click', () => {
                 const content = commentInput.value.trim();
                 if (!content) return;
                 if (editingIndex !== null) {
                     post.comments[editingIndex].content = content;
-                    post.comments[editingIndex].date = new Date().toLocaleString('ko-KR');
+                    post.comments[editingIndex].date = getFormattedDate(); // 날짜 형식 적용
                     localStorage.setItem('posts', JSON.stringify(posts));
                     renderComments();
                     editingIndex = null;
@@ -235,7 +235,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     const newComment = {
                         writerId: loggedInUser.id,
                         content: content,
-                        date: new Date().toLocaleString('ko-KR')
+                        // 날짜 형식 적용
+                        date: getFormattedDate()
                     };
                     post.comments.push(newComment);
                     localStorage.setItem('posts', JSON.stringify(posts));
@@ -256,5 +257,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.body.style.overflow = 'hidden';
             });
         }
+    }
+
+    // 날짜 포맷 함수 추가 (yyyy-mm-dd hh:mm:ss)
+    function getFormattedDate() {
+        const now = new Date();
+        const yyyy = now.getFullYear();
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const dd = String(now.getDate()).padStart(2, '0');
+        const hh = String(now.getHours()).padStart(2, '0');
+        const mi = String(now.getMinutes()).padStart(2, '0');
+        const ss = String(now.getSeconds()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd} ${hh}:${mi}:${ss}`;
     }
 });

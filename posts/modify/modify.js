@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 post.content = contentInput;
                 post.image = event.target.result;
                 post.imageName = file.name; // 선택한 파일의 이름 저장
-                post.date = new Date().toLocaleString("ko-KR");
+                post.date = getFormattedDate(); // 날짜 형식 적용
                 // 업데이트된 게시글 저장
                 posts[postIndex] = post;
                 localStorage.setItem("posts", JSON.stringify(posts));
@@ -150,10 +150,22 @@ document.addEventListener('DOMContentLoaded', () => {
             // 이미지가 선택되지 않은 경우 기존 이미지 유지
             post.title = titleInput;
             post.content = contentInput;
-            post.date = new Date().toLocaleString("ko-KR");
+            post.date = getFormattedDate(); // 날짜 형식 적용
             posts[postIndex] = post;
             localStorage.setItem("posts", JSON.stringify(posts));
             window.location.href = "../detail/detail.html?id=" + post.id;
         }
     });
+
+    // 날짜 포맷 함수 추가 (yyyy-mm-dd hh:mm:ss)
+    function getFormattedDate() {
+        const now = new Date();
+        const yyyy = now.getFullYear();
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const dd = String(now.getDate()).padStart(2, '0');
+        const hh = String(now.getHours()).padStart(2, '0');
+        const mi = String(now.getMinutes()).padStart(2, '0');
+        const ss = String(now.getSeconds()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd} ${hh}:${mi}:${ss}`;
+    }
 });

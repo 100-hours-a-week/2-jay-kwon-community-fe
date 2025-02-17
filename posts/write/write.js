@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     id: Date.now(),
                     title: titleInput,
                     content: contentInput, // LONGTEXT 타입과 같이 제한 없이 긴 문자열 저장
-                    date: new Date().toLocaleString('ko-KR'),
+                    date: getFormattedDate(), // 날짜 형식 적용
                     likes: 0,
                     views: 0,
                     comments: [],
@@ -140,13 +140,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 id: Date.now(),
                 title: titleInput,
                 content: contentInput, // LONGTEXT 타입과 같이 제한 없이 긴 문자열 저장
-                date: new Date().toLocaleString('ko-KR'),
+                date: getFormattedDate(), // 날짜 형식 적용
                 likes: 0,
                 views: 0,
                 comments: [],
                 writerId: loggedInUser ? loggedInUser.id : null
             };
-            console.log(newPost)
 
             // 로컬 스토리지에 기존 게시글과 함께 저장
             const posts = JSON.parse(localStorage.getItem('posts')) || [];
@@ -157,4 +156,16 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = '../list/list.html';
         }
     });
+
+    // 날짜 포맷 함수 추가 (yyyy-mm-dd hh:mm:ss)
+    function getFormattedDate() {
+        const now = new Date();
+        const yyyy = now.getFullYear();
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const dd = String(now.getDate()).padStart(2, '0');
+        const hh = String(now.getHours()).padStart(2, '0');
+        const mi = String(now.getMinutes()).padStart(2, '0');
+        const ss = String(now.getSeconds()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd} ${hh}:${mi}:${ss}`;
+    }
 });
