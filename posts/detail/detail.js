@@ -10,9 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function formatCount(count) {
-        if (count >= 100000) return '100K';
-        if (count >= 10000) return '10K';
-        if (count >= 1000) return '1K';
+        if (count >= 1000) {
+            return Math.floor(count / 1000) + 'K';
+        }
         return count;
     }
 
