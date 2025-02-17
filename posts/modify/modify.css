@@ -1,0 +1,244 @@
+/* 폰트 추가 */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
+
+/* 모든 요소에 box-sizing: border-box 적용 */
+* {
+    box-sizing: border-box;
+}
+
+/* 페이지 설정 */
+body {
+    display: flex;
+    justify-content: center;
+    background-color: #F4F5F7;
+    font-family: "Noto Sans KR", sans-serif;
+}
+.wrap {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: transparent;
+    padding: 10px 0;
+}
+
+/* 뒤로가기 버튼 */
+.back-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    position: static;
+}
+
+/* 헤더 영역 grid 수정 */
+.header {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 좌측 영역: back-button이 들어가는 영역 */
+.header-left {
+    width: 24px;
+    justify-self: start;
+    margin-right: 150px;
+}
+
+/* 중앙 영역: 제목 */
+.header-center {
+    justify-self: center;
+    text-align: center;
+}
+
+/* 우측 영역: 균형을 위한 빈 공간 */
+.header-right {
+    width: 24px;
+    justify-self: end;
+    margin-left: 150px;
+    position: relative;
+}
+
+.header-right .profile-image {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.header .title,
+.description {
+    margin: 0;
+    padding: 0;
+    color: #000000;
+}
+
+.header .title {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+    margin-bottom: 10px;
+}
+
+/* 가로줄 구분선 */
+.horizontal-rule {
+    width: 100%;
+    height: 1px;
+    border: 0;
+    background-color: #000000;
+    margin: 10px auto;
+}
+
+/* 게시글 가로줄 구분선 */
+.post-horizontal-rule {
+    width: 100%;
+    height: 1px;
+    border: 0;
+    background-color: #D9D9D9;
+    margin: 10px auto;
+}
+
+/* 게시글 박스 */
+.container {
+    width: 450px;
+    margin: 0 auto;
+}
+
+/* 텍스트 */
+.text {
+    color: #000000;
+    text-align: center;
+}
+.text .big {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 50px;
+}
+
+/* 헬퍼 텍스트 */
+.helper-text {
+    font-size: 14px;
+    text-align: left;
+    margin-top: 4px;
+}
+.helper-text .complete-check {
+    color: #FF0000;
+    display: none;
+}
+
+/* 게시글 정보 입력 부분 */
+.write-card {
+    color: #000000;
+    text-align: left;
+}
+.write-card .label {
+    font-size: 14px;
+    font-weight: bold;
+}
+.write-card .input {
+    width: 100%;
+    height: 30px;
+    font-weight: 700;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 5px;
+    border: 1px solid #ccc;
+
+    padding: 0 5px;
+}
+.write-card textarea {
+    width: 100%;
+    height: 300px !important;
+    resize: none;
+    border: none;
+    outline: none;
+    font-size: 12px;
+    color: #000000;
+}
+.file-upload-text {
+    font-size: 14px;
+    color: #000000;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+/* 제목 입력 스타일 */
+#title-input {
+    margin: 10px 0;
+    border: none;
+    background-color: transparent;
+    outline: none;
+}
+
+/* 내용 입력 스타일 */
+#content-input {
+    border: none;
+    background-color: transparent;
+    outline: none;
+}
+
+/* 버튼 */
+.buttons {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.buttons .button {
+    width: 60%;
+    height: 42px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #ACA0EB;
+    border-radius: 10px;
+    border: none;
+
+    text-decoration: none;
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.buttons .button:hover {
+    background-color: #7F6AEE;
+}
+
+/* 드롭박스 */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background-color: #D9D9D9;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 10;
+    width: 150px;
+}
+
+.dropdown-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dropdown-menu li {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #000000;
+    text-align: center;
+}
+
+.dropdown-menu li:hover {
+    background-color: #E9E9E9;
+}

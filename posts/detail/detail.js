@@ -87,6 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (loggedInUser && loggedInUser.id === post.writerId) {
                 editPostButton.style.display = 'inline-block';
                 deletePostButton.style.display = 'inline-block';
+                editPostButton.addEventListener('click', () => {
+                    window.location.href = "../modify/modify.html?id=" + post.id;
+                });
             } else {
                 editPostButton.style.display = 'none';
                 deletePostButton.style.display = 'none';
