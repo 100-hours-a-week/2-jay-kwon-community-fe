@@ -129,6 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             modal.querySelector('h3').textContent = "댓글을 삭제하시겠습니까?";
                             modal.querySelector('p').textContent = "삭제한 내용은 복구할 수 없습니다.";
                             modal.style.display = 'block';
+                            document.body.style.overflow = 'hidden';
                         });
                     }
                 });
@@ -142,7 +143,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const confirmDeleteButton = document.getElementById('confirm-delete-button');
 
             cancelDeleteButton.addEventListener('click', () => {
+                const modal = document.getElementById('delete-confirm-modal');
                 modal.style.display = 'none';
+                document.body.style.overflow = '';
                 currentDeleteIndex = null;
                 deletionMode = null;
             });
@@ -161,7 +164,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     window.location.href = '../list/list.html';
                 }
+                const modal = document.getElementById('delete-confirm-modal');
                 modal.style.display = 'none';
+                document.body.style.overflow = '';
                 currentDeleteIndex = null;
                 deletionMode = null;
             });
@@ -216,6 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const modal = document.getElementById('delete-confirm-modal');
                 modal.querySelector('h3').textContent = "게시글을 삭제하시겠습니까?";
                 modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
             });
         }
     }
