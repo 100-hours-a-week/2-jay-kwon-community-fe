@@ -154,33 +154,36 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 `;
                 commentList.appendChild(commentCard);
-
-                if (isOwnComment) {
-                    const editButton = commentCard.querySelector('.comment-edit-button');
-                    editButton.addEventListener('click', () => {
-                        editingIndex = index;
-                        commentInput.value = comment.content;
-                        commentInputButton.innerText = '댓글 수정';
-                        commentInputButton.disabled = false;
-                        commentInputButton.style.cursor = 'pointer';
-                        commentInputButton.style.backgroundColor = '#7F6AEE';
-                    });
-                    const deleteButton = commentCard.querySelector('.comment-delete-button');
-                    deleteButton.addEventListener('click', () => {
-                        currentDeleteIndex = index;
-                        deletionMode = 'comment';
-                        modalUtil.openModal('delete-confirm-modal', {
-                            title: "댓글을 삭제하시겠습니까?",
-                            message: "삭제한 내용은 복구할 수 없습니다."
-                        });
-                    });
-                }
             });
             // 댓글 수 업데이트
             document.getElementById('post-comments').textContent = formatter.formatCount(comments.length);
         };
 
         renderComments();
+
+        // 이벤트 위임을 통해 댓글 수정 및 삭제 버튼 이벤트 처리
+        commentList.addEventListener('click', (event) => {
+            if (event.target.matches('.comment-edit-button')) {
+                const commentCard = event.target.closest('.comment-item');
+                const index = commentCard.getAttribute('data-index');
+                editingIndex = parseInt(index);
+                const content = commentCard.querySelector('.comment-content').textContent;
+                commentInput.value = content;
+                commentInputButton.innerText = '댓글 수정';
+                commentInputButton.disabled = false;
+                commentInputButton.style.cursor = 'pointer';
+                commentInputButton.style.backgroundColor = '#7F6AEE';
+            } else if (event.target.matches('.comment-delete-button')) {
+                const commentCard = event.target.closest('.comment-item');
+                const index = commentCard.getAttribute('data-index');
+                currentDeleteIndex = parseInt(index);
+                deletionMode = 'comment';
+                modalUtil.openModal('delete-confirm-modal', {
+                    title: "댓글을 삭제하시겠습니까?",
+                    message: "삭제한 내용은 복구할 수 없습니다."
+                });
+            }
+        });
 
         // 댓글 입력 버튼 초기 상태 설정
         commentInputButton.disabled = true;
