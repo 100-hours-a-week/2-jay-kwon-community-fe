@@ -42,6 +42,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     location.reload();
                 }
             } else if (deletionMode === 'post') {
+                // 연관된 모든 댓글 삭제
+                const allComments = commentsAPI.getCommentsByPost(post.pno);
+                allComments.forEach(comment => {
+                    commentsAPI.deleteComment(comment.cno);
+                });
+                // 연관된 모든 좋아요 삭제
+                const allHearts = heartsAPI.getHeartsByPost(post.pno);
+                allHearts.forEach(heart => {
+                    heartsAPI.deleteHeart(heart.hno);
+                });
+                // 게시글 삭제
                 postsAPI.deletePost(post.pno);
                 window.location.href = './list.html';
             }
