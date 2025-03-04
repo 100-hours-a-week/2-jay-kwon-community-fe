@@ -42,6 +42,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // 사용자 정보를 업데이트하는 공통 로직 분리
+    function updateProfile(nicknameValue) {
+        loggedInUser.nickname = nicknameValue;
+        if (newProfileImage) {
+            loggedInUser.profile_image = newProfileImage;
+        }
+        localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
+        usersAPI.updateUser({ 
+            mno: loggedInUser.mno, 
+            nickname: loggedInUser.nickname, 
+            profile_image: loggedInUser.profile_image 
+        });
+        document.getElementById('profileImage').src = loggedInUser.profile_image;
+        showToast();
+    }
+
     modifyButton.addEventListener('click', (event) => {
         event.preventDefault();
 
@@ -50,37 +66,22 @@ document.addEventListener('DOMContentLoaded', () => {
             nicknameValue = oldNickname;
         }
 
+        // 닉네임이 변경되지 않은 경우, 프로필 이미지만 변경되었거나 아무 변화가 없는 경우
+        if (nicknameValue === oldNickname) {
+            updateProfile(nicknameValue);
+            return;
+        }
+
+        // 닉네임이 변경된 경우에만 validator를 통해 검증
         const validationResult = validator.validateNickname(nicknameValue);
         if (!validationResult.valid) {
             nicknameHelper.textContent = validationResult.message;
             nicknameHelper.style.display = 'block';
             nicknameHelper.style.color = 'red';
             return;
-        }
-
-        if (nicknameValue === oldNickname && !newProfileImage) {
-            showToast();
-            return;
-        }
-
-        const users = usersAPI.getUsers();
-        const isDuplicate = users.some(user =>
-            user.nickname === nicknameValue && user.mno !== loggedInUser.mno
-        );
-        if (isDuplicate) {
-            nicknameHelper.textContent = '*중복된 닉네임입니다';
-            nicknameHelper.style.display = 'block';
-            nicknameHelper.style.color = 'red';
         } else {
             nicknameHelper.style.display = 'none';
-            loggedInUser.nickname = nicknameValue;
-            if (newProfileImage) {
-                loggedInUser.profile_image = newProfileImage;
-            }
-            localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
-            usersAPI.updateUser({ mno: loggedInUser.mno, nickname: nicknameValue, profile_image: loggedInUser.profile_image });
-            document.getElementById('profileImage').src = loggedInUser.profile_image;
-            showToast();
+            updateProfile(nicknameValue);
         }
     });
 

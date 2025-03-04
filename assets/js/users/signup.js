@@ -8,10 +8,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const fileInput = document.getElementById('profile-img-upload');
 
     // 각 입력 필드에 대한 blur 이벤트로 검증 실행
-    emailInput.addEventListener('blur', validateEmail);
-    passwordInput.addEventListener('blur', validatePassword);
-    passwordCheckInput.addEventListener('blur', validatePasswordCheck);
-    nicknameInput.addEventListener('blur', validateNickname);
+    emailInput.addEventListener('blur', validateEmailInput);
+    passwordInput.addEventListener('blur', validatePasswordInput);
+    passwordCheckInput.addEventListener('blur', validatePasswordCheckInput);
+    nicknameInput.addEventListener('blur', validateNicknameInput);
 
     // 각 필드의 검증 상태를 저장하는 객체
     const validationState = {
@@ -25,18 +25,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // 초기 상태 설정
     updateSignupButtonState();
 
-    // 이메일 검증
-    function validateEmail() {
+    function validateEmailInput() {
         const emailValue = emailInput.value.trim();
         const emailHelper = document.querySelector('.helper-text .email');
         const result = validator.validateEmail(emailValue);
 
-        if (emailValue === "") {
-            emailHelper.textContent = '*이메일을 입력해주세요';
-            emailHelper.style.display = 'block';
-            emailHelper.style.color = 'red';
-            validationState.email = false;
-        } else if (!result.valid) {
+        if (!result.valid) {
             emailHelper.textContent = result.message;
             emailHelper.style.display = 'block';
             emailHelper.style.color = 'red';
@@ -55,18 +49,12 @@ document.addEventListener('DOMContentLoaded', function () {
         updateSignupButtonState();
     }
 
-    // 비밀번호 검증
-    function validatePassword() {
+    function validatePasswordInput() {
         const passwordValue = passwordInput.value.trim();
         const passwordHelper = document.querySelector('.helper-text .password');
         const result = validator.validatePassword(passwordValue);
 
-        if (!passwordValue) {
-            passwordHelper.textContent = '*비밀번호를 입력해주세요';
-            passwordHelper.style.display = 'block';
-            passwordHelper.style.color = 'red';
-            validationState.password = false;
-        } else if (!result.valid) {
+        if (!result.valid) {
             passwordHelper.textContent = result.message;
             passwordHelper.style.display = 'block';
             passwordHelper.style.color = 'red';
@@ -78,19 +66,14 @@ document.addEventListener('DOMContentLoaded', function () {
         updateSignupButtonState();
     }
 
-    // 비밀번호 확인 검증
-    function validatePasswordCheck() {
+    function validatePasswordCheckInput() {
         const passwordValue = passwordInput.value.trim();
         const passwordCheckValue = passwordCheckInput.value.trim();
         const passwordCheckHelper = document.querySelector('.helper-text .password-check');
+        const result = validator.validatePasswordCheck(passwordValue, passwordCheckValue);
 
-        if (!passwordCheckValue) {
-            passwordCheckHelper.textContent = '*비밀번호를 한 번 더 입력해주세요';
-            passwordCheckHelper.style.display = 'block';
-            passwordCheckHelper.style.color = 'red';
-            validationState.passwordCheck = false;
-        } else if (passwordValue !== passwordCheckValue) {
-            passwordCheckHelper.textContent = '*비밀번호가 다릅니다';
+        if (!result.valid) {
+            passwordCheckHelper.textContent = result.message;
             passwordCheckHelper.style.display = 'block';
             passwordCheckHelper.style.color = 'red';
             validationState.passwordCheck = false;
@@ -101,8 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
         updateSignupButtonState();
     }
 
-    // 닉네임 검증
-    function validateNickname() {
+    function validateNicknameInput() {
         const nicknameValue = nicknameInput.value.trim();
         const nicknameHelper = document.querySelector('.helper-text .nickname');
         const result = validator.validateNickname(nicknameValue);
@@ -113,25 +95,17 @@ document.addEventListener('DOMContentLoaded', function () {
             nicknameHelper.style.color = 'red';
             validationState.nickname = false;
         } else {
-            const users = JSON.parse(localStorage.getItem('users')) || [];
-            if (users.some(user => user.nickname === nicknameValue)) {
-                nicknameHelper.textContent = '*중복된 닉네임입니다';
-                nicknameHelper.style.display = 'block';
-                nicknameHelper.style.color = 'red';
-                validationState.nickname = false;
-            } else {
-                nicknameHelper.style.display = 'none';
-                validationState.nickname = true;
-            }
+            nicknameHelper.style.display = 'none';
+            validationState.nickname = true;
         }
         updateSignupButtonState();
     }
 
-    // 프로필 이미지 검증
-    function validateProfile() {
+    function validateProfileUpload() {
         const profileHelper = document.querySelector('.helper-text .profile');
-        if (!imageContainer.classList.contains('uploaded')) {
-            profileHelper.textContent = '*프로필 사진을 추가해주세요';
+        const result = validator.validateProfile(imageContainer.classList.contains('uploaded'));
+        if (!result.valid) {
+            profileHelper.textContent = result.message;
             profileHelper.style.display = 'block';
             profileHelper.style.color = 'red';
             validationState.profile = false;
@@ -141,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // 이미지 업로드 이벤트 처리
     imageContainer.addEventListener('click', function () {
         fileInput.click();
     });
@@ -155,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 imageContainer.style.backgroundPosition = 'center';
                 imageContainer.style.backgroundColor = 'transparent';
                 imageContainer.classList.add('uploaded');
-                validateProfile();
+                validateProfileUpload();
                 updateSignupButtonState();
             };
             reader.readAsDataURL(file);
@@ -163,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function () {
             imageContainer.style.backgroundImage = '';
             imageContainer.style.backgroundColor = '#C4C4C4';
             imageContainer.classList.remove('uploaded');
-            validateProfile();
+            validateProfileUpload();
             updateSignupButtonState();
         }
     });
@@ -171,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 회원가입 버튼 활성화 상태 갱신 (전체 검증 상태를 validationState로 확인)
     function updateSignupButtonState() {
         // 프로필 상태를 항상 최신으로 업데이트
-        validateProfile();
+        validateProfileUpload();
         const isValid = Object.values(validationState).every(value => value === true);
         if (isValid) {
             signupButton.disabled = false;
@@ -222,6 +197,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // 초기 상태 설정
-    validateProfile();
+    validateProfileUpload();
     updateSignupButtonState();
 });

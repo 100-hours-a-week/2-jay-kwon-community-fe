@@ -9,26 +9,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const emailValue = emailInput.value.trim();
         const passwordValue = passwordInput.value.trim();
 
-        // 이메일 유효성 검사: 값이 없거나 길이가 5 미만인 경우
-        if (emailValue === "" || emailValue.length < 5) {
-            helperText.textContent = '*올바른 이메일 주소 형식을 입력해주세요';
-            helperText.style.display = "block";
-            helperText.style.color = "red";
-            return;
-        }
-
         // validator.js의 이메일 검증 함수 사용
         const isValidEmail = validator.validateEmail(emailValue);
         if (!isValidEmail.valid) {
             helperText.textContent = isValidEmail.message;
-            helperText.style.display = "block";
-            helperText.style.color = "red";
-            return;
-        }
-
-        // 비밀번호가 빈 값인 경우
-        if (passwordValue === "") {
-            helperText.textContent = '*비밀번호를 입력해주세요';
             helperText.style.display = "block";
             helperText.style.color = "red";
             return;

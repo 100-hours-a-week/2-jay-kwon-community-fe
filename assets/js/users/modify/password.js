@@ -35,12 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function validatePasswordCheckInput() {
         const passwordValue = passwordInput.value.trim();
         const passwordCheckValue = passwordCheckInput.value.trim();
-        if (!passwordCheckValue) {
-            passwordCheckHelper.textContent = '*비밀번호를 한 번 더 입력해주세요';
-            passwordCheckHelper.style.display = 'block';
-            passwordCheckHelper.style.color = 'red';
-        } else if (passwordValue !== passwordCheckValue) {
-            passwordCheckHelper.textContent = '*비밀번호가 다릅니다';
+        const result = validator.validatePasswordCheck(passwordValue, passwordCheckValue);
+        if (!result.valid) {
+            passwordCheckHelper.textContent = result.message;
             passwordCheckHelper.style.display = 'block';
             passwordCheckHelper.style.color = 'red';
         } else {
@@ -52,8 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateModifyButtonState() {
         const passwordValue = passwordInput.value.trim();
         const passwordCheckValue = passwordCheckInput.value.trim();
-        const validPassword = validator.validatePassword(passwordValue).valid;
-        if (passwordValue && validPassword && passwordValue === passwordCheckValue) {
+        const passwordResult = validator.validatePassword(passwordValue);
+        const passwordCheckResult = validator.validatePasswordCheck(passwordValue, passwordCheckValue);
+
+        if (passwordValue && passwordResult.valid && passwordCheckResult.valid) {
             modifyButton.disabled = false;
             modifyButton.style.cursor = 'pointer';
         } else {
