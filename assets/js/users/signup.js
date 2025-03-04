@@ -13,9 +13,19 @@ document.addEventListener('DOMContentLoaded', function () {
     passwordCheckInput.addEventListener('blur', validatePasswordCheck);
     nicknameInput.addEventListener('blur', validateNickname);
 
+    // 각 필드의 검증 상태를 저장하는 객체
+    const validationState = {
+        email: false,
+        password: false,
+        passwordCheck: false,
+        nickname: false,
+        profile: false
+    };
+
     // 초기 상태 설정
     updateSignupButtonState();
 
+    // 이메일 검증
     function validateEmail() {
         const emailValue = emailInput.value.trim();
         const emailHelper = document.querySelector('.helper-text .email');
@@ -25,24 +35,27 @@ document.addEventListener('DOMContentLoaded', function () {
             emailHelper.textContent = '*이메일을 입력해주세요';
             emailHelper.style.display = 'block';
             emailHelper.style.color = 'red';
+            validationState.email = false;
         } else if (!result.valid) {
             emailHelper.textContent = result.message;
             emailHelper.style.display = 'block';
             emailHelper.style.color = 'red';
+            validationState.email = false;
         } else {
-            // 중복 이메일 검사: usersAPI의 getUserByEmail 사용
-            const existingUser = usersAPI.getUserByEmail(emailValue);
-            if (existingUser) {
+            if (usersAPI.getUserByEmail(emailValue)) {
                 emailHelper.textContent = '*중복된 이메일입니다';
                 emailHelper.style.display = 'block';
                 emailHelper.style.color = 'red';
+                validationState.email = false;
             } else {
                 emailHelper.style.display = 'none';
+                validationState.email = true;
             }
         }
         updateSignupButtonState();
     }
 
+    // 비밀번호 검증
     function validatePassword() {
         const passwordValue = passwordInput.value.trim();
         const passwordHelper = document.querySelector('.helper-text .password');
@@ -52,16 +65,20 @@ document.addEventListener('DOMContentLoaded', function () {
             passwordHelper.textContent = '*비밀번호를 입력해주세요';
             passwordHelper.style.display = 'block';
             passwordHelper.style.color = 'red';
+            validationState.password = false;
         } else if (!result.valid) {
             passwordHelper.textContent = result.message;
             passwordHelper.style.display = 'block';
             passwordHelper.style.color = 'red';
+            validationState.password = false;
         } else {
             passwordHelper.style.display = 'none';
+            validationState.password = true;
         }
         updateSignupButtonState();
     }
 
+    // 비밀번호 확인 검증
     function validatePasswordCheck() {
         const passwordValue = passwordInput.value.trim();
         const passwordCheckValue = passwordCheckInput.value.trim();
@@ -71,16 +88,20 @@ document.addEventListener('DOMContentLoaded', function () {
             passwordCheckHelper.textContent = '*비밀번호를 한 번 더 입력해주세요';
             passwordCheckHelper.style.display = 'block';
             passwordCheckHelper.style.color = 'red';
+            validationState.passwordCheck = false;
         } else if (passwordValue !== passwordCheckValue) {
             passwordCheckHelper.textContent = '*비밀번호가 다릅니다';
             passwordCheckHelper.style.display = 'block';
             passwordCheckHelper.style.color = 'red';
+            validationState.passwordCheck = false;
         } else {
             passwordCheckHelper.style.display = 'none';
+            validationState.passwordCheck = true;
         }
         updateSignupButtonState();
     }
 
+    // 닉네임 검증
     function validateNickname() {
         const nicknameValue = nicknameInput.value.trim();
         const nicknameHelper = document.querySelector('.helper-text .nickname');
@@ -90,22 +111,36 @@ document.addEventListener('DOMContentLoaded', function () {
             nicknameHelper.textContent = result.message;
             nicknameHelper.style.display = 'block';
             nicknameHelper.style.color = 'red';
+            validationState.nickname = false;
         } else {
-            // 추가로 로컬 스토리지의 데이터를 통해 중복 검사
             const users = JSON.parse(localStorage.getItem('users')) || [];
-            const isDuplicate = users.some(user => user.nickname === nicknameValue);
-            if (isDuplicate) {
+            if (users.some(user => user.nickname === nicknameValue)) {
                 nicknameHelper.textContent = '*중복된 닉네임입니다';
                 nicknameHelper.style.display = 'block';
                 nicknameHelper.style.color = 'red';
+                validationState.nickname = false;
             } else {
                 nicknameHelper.style.display = 'none';
+                validationState.nickname = true;
             }
         }
         updateSignupButtonState();
     }
 
-    // 프로필 이미지 업로드 이벤트 처리
+    // 프로필 이미지 검증
+    function validateProfile() {
+        const profileHelper = document.querySelector('.helper-text .profile');
+        if (!imageContainer.classList.contains('uploaded')) {
+            profileHelper.textContent = '*프로필 사진을 추가해주세요';
+            profileHelper.style.display = 'block';
+            profileHelper.style.color = 'red';
+            validationState.profile = false;
+        } else {
+            profileHelper.style.display = 'none';
+            validationState.profile = true;
+        }
+    }
+
     imageContainer.addEventListener('click', function () {
         fileInput.click();
     });
@@ -120,6 +155,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 imageContainer.style.backgroundPosition = 'center';
                 imageContainer.style.backgroundColor = 'transparent';
                 imageContainer.classList.add('uploaded');
+                validateProfile();
                 updateSignupButtonState();
             };
             reader.readAsDataURL(file);
@@ -127,22 +163,17 @@ document.addEventListener('DOMContentLoaded', function () {
             imageContainer.style.backgroundImage = '';
             imageContainer.style.backgroundColor = '#C4C4C4';
             imageContainer.classList.remove('uploaded');
+            validateProfile();
             updateSignupButtonState();
         }
     });
 
-    // 회원가입 버튼 활성화 상태 갱신
+    // 회원가입 버튼 활성화 상태 갱신 (전체 검증 상태를 validationState로 확인)
     function updateSignupButtonState() {
-        const profileHelper = document.querySelector('.helper-text .profile');
-        if (!imageContainer.classList.contains('uploaded')) {
-            profileHelper.textContent = '*프로필 사진을 추가해주세요';
-            profileHelper.style.display = 'block';
-            profileHelper.style.color = 'red';
-        } else {
-            profileHelper.style.display = 'none';
-        }
-
-        if (isFormValid()) {
+        // 프로필 상태를 항상 최신으로 업데이트
+        validateProfile();
+        const isValid = Object.values(validationState).every(value => value === true);
+        if (isValid) {
             signupButton.disabled = false;
             signupButton.style.cursor = 'pointer';
             signupButton.style.backgroundColor = '#7F6AEE';
@@ -153,54 +184,21 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // 전체 입력값의 유효성 검사 (각 조건을 별도 변수에 할당)
-    function isFormValid() {
-        const emailValue = emailInput.value.trim();
-        const passwordValue = passwordInput.value.trim();
-        const passwordCheckValue = passwordCheckInput.value.trim();
-        const nicknameValue = nicknameInput.value.trim();
-
-        // 이메일: 5자 이상, 유효한 형식, 중복되지 않음
-        const emailValid =
-            emailValue.length >= 5 &&
-            validator.validateEmail(emailValue).valid &&
-            !usersAPI.getUserByEmail(emailValue);
-
-        // 비밀번호: 비어있지 않고 유효한 형식
-        const passwordValid =
-            passwordValue !== "" &&
-            validator.validatePassword(passwordValue).valid;
-
-        // 비밀번호 확인: 동일해야 함
-        const passwordsMatch = passwordValue === passwordCheckValue;
-
-        // 닉네임: 빈 값 아님, 띄어쓰기 없음, 최대 10자, 중복되지 않음
-        const users = JSON.parse(localStorage.getItem('users')) || [];
-        const nicknameValid =
-            nicknameValue !== "" &&
-            !/\s/.test(nicknameValue) &&
-            nicknameValue.length <= 10 &&
-            !users.some(user => user.nickname === nicknameValue);
-
-        // 프로필 이미지 업로드 여부
-        const profileUploaded = imageContainer.classList.contains('uploaded');
-
-        return emailValid && passwordValid && passwordsMatch && nicknameValid && profileUploaded;
-    }
-
-    // 회원가입 버튼 클릭 시, usersAPI를 사용하여 새 회원 생성 (더미 데이터 형식 유지)
+    // isFormValid 함수를 제거하고, 클릭 시 validationState를 직접 확인
     signupButton.addEventListener('click', function (event) {
         event.preventDefault();
-
+        // 모든 검증 결과가 true인지 inline으로 확인
+        if (!Object.values(validationState).every(value => value === true)) {
+            return;
+        }
         const emailValue = emailInput.value.trim();
         const passwordValue = passwordInput.value.trim();
         const nicknameValue = nicknameInput.value.trim();
 
-        // "url("data:image/png;base64,...")" 에서 실제 데이터만 추출
+        // 프로필 이미지의 실제 데이터 추출
         const bgImage = imageContainer.style.backgroundImage;
         const profileImage = bgImage.slice(5, bgImage.length - 2);
 
-        // 더미 데이터 형식: { mno, email, password, nickname, profile_image, created_at }
         const newUser = {
             email: emailValue,
             password: passwordValue,
@@ -208,7 +206,6 @@ document.addEventListener('DOMContentLoaded', function () {
             profile_image: profileImage
         };
 
-        // usersAPI.createUser 내부에서 mno와 created_at을 추가하도록 설계
         const createdUser = usersAPI.createUser(newUser);
         if (createdUser) {
             const originalColor = signupButton.style.backgroundColor;
@@ -220,10 +217,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 }, 500);
             }, 500);
         } else {
-            const emailHelper = document.querySelector('.helper-text .email');
-            emailHelper.textContent = '*회원가입에 실패했습니다. 다시 시도해주세요.';
-            emailHelper.style.display = 'block';
-            emailHelper.style.color = 'red';
+            alert('회원가입에 실패했습니다. 다시 시도해주세요.');
         }
     });
+
+    // 초기 상태 설정
+    validateProfile();
+    updateSignupButtonState();
 });
