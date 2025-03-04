@@ -13,8 +13,18 @@ class BaseAPI {
 
     create(idField, newItem) {
         const items = this.getAll();
-        const maxId = items.reduce((max, item) => item[idField] > max ? item[idField] : max, 0);
-        newItem[idField] = maxId + 1;
+
+        if (Array.isArray(idField)) {
+            const exists = items.some(item =>
+                idField.every(field => item[field] === newItem[field])
+            );
+            if (exists) return null;
+        } else if (idField) {
+            // 기존 방식
+            const maxId = items.reduce((max, item) => item[idField] > max ? item[idField] : max, 0);
+            newItem[idField] = maxId + 1;
+        }
+
         newItem.created_at = new Date().toISOString();
         items.push(newItem);
         localStorage.setItem(this.storageKey, JSON.stringify(items));
@@ -33,7 +43,15 @@ class BaseAPI {
 
     delete(idField, idValue) {
         let items = this.getAll();
-        items = items.filter(item => item[idField] !== idValue);
+
+        if (typeof idField === 'object') {
+            items = items.filter(item =>
+                !Object.entries(idField).every(([key, value]) => item[key] === value)
+            );
+        } else {
+            items = items.filter(item => item[idField] !== idValue);
+        }
+
         localStorage.setItem(this.storageKey, JSON.stringify(items));
         return true;
     }

@@ -16,11 +16,11 @@ class HeartsAPI extends BaseAPI {
     }
 
     createHeart(newHeart) {
-        return this.create('hno', newHeart);
+        return this.create(['mno', 'pno'], newHeart);
     }
 
-    deleteHeart(hno) {
-        return this.delete('hno', hno);
+    deleteHeart(mno, pno) {
+        return this.delete({ mno, pno });
     }
 }
 

@@ -49,8 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 // 연관된 모든 좋아요 삭제
                 const allHearts = heartsAPI.getHeartsByPost(post.pno);
-                allHearts.forEach(heart => {
-                    heartsAPI.deleteHeart(heart.hno);
+                allHearts.forEach(() => {
+                    heartsAPI.deleteHeart(loggedInUser.mno, post.pno);
                 });
                 // 게시글 삭제
                 postsAPI.deletePost(post.pno);
@@ -108,26 +108,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function initLikes(post) {
         const likeStatCard = document.querySelectorAll('.stat-card')[0];
+
+        function updateLikeStatus() {
+            const allHearts = heartsAPI.getHeartsByPost(post.pno);
+            userHeart = heartsAPI.getHeartByUserAndPost(loggedInUser.mno, post.pno);
+            isLiked = !!userHeart;
+            currentLikes = allHearts.length;
+            document.getElementById('post-likes').textContent = formatter.formatCount(currentLikes);
+            likeStatCard.style.backgroundColor = isLiked ? '#ACA0EB' : '#D9D9D9';
+        }
+
         let userHeart = heartsAPI.getHeartByUserAndPost(loggedInUser.mno, post.pno);
         let isLiked = !!userHeart;
         let currentLikes = heartsAPI.getHeartsByPost(post.pno).length;
-        likeStatCard.style.backgroundColor = isLiked ? '#ACA0EB' : '#D9D9D9';
+
+        updateLikeStatus(); // 초기 좋아요 상태 반영
 
         likeStatCard.addEventListener('click', () => {
             if (!isLiked) {
-                const newHeart = { mno: loggedInUser.mno, pno: post.pno };
-                heartsAPI.createHeart(newHeart);
-                isLiked = true;
+                heartsAPI.createHeart({ mno: loggedInUser.mno, pno: post.pno });
             } else {
-                userHeart = heartsAPI.getHeartByUserAndPost(loggedInUser.mno, post.pno);
-                if (userHeart) {
-                    heartsAPI.deleteHeart(userHeart.hno);
-                }
-                isLiked = false;
+                heartsAPI.deleteHeart(loggedInUser.mno, post.pno);
             }
-            currentLikes = heartsAPI.getHeartsByPost(post.pno).length;
-            document.getElementById('post-likes').textContent = formatter.formatCount(currentLikes);
-            likeStatCard.style.backgroundColor = isLiked ? '#ACA0EB' : '#D9D9D9';
+            updateLikeStatus(); // 좋아요 변경 후 즉시 최신 상태 반영
         });
     }
 
