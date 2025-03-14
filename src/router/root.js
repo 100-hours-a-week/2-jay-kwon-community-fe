@@ -1,4 +1,5 @@
 import { Suspense, lazy } from "react";
+import usersRouter from "./usersRouter";
 
 const { createBrowserRouter } = require("react-router-dom");
 
@@ -10,6 +11,10 @@ const root = createBrowserRouter([
     {
         path: "",
         element: <Suspense fallback={Loading}><Main/></Suspense>
+    },
+    {
+        path: "users",
+        children: usersRouter()
     },
 ])
 
