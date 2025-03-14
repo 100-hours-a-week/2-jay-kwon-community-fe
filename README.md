@@ -1,152 +1,70 @@
-### 3, 4주차 과제 내용
+# Getting Started with Create React App
 
-HTML, CSS, Vanila JS로 피그마의 기능 정의서와 화면 설계서를 보고 아무 말 대잔치 커뮤니티 제작하기
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-### 사용 방법
-- 프로젝트 다운로드
-  - 이 저장소를 ZIP으로 다운로드하거나 클론(clone)합니다.
-- Visual Studio Code에서 폴더 열기
-  - VSCode를 실행한 뒤, “폴더 열기”를 통해 프로젝트 폴더를 엽니다.
-- Live Server 확장 설치
-  - VSCode 확장(Extensions) 탭에서 “Live Server”를 검색하여 설치합니다.
-- index.html 실행
-  - 프로젝트 내 index.html 파일을 마우스 오른쪽 버튼으로 클릭한 뒤, “Open with Live Server” 메뉴를 선택하여 실행합니다.
-- 더미 데이터 로드 확인
-  - 브라우저 콘솔에서 에러 없이 JSON 데이터가 로컬 스토리지에 저장되는지 확인합니다.
-    
-### 리펙터링 이후 프로젝트 구조
-    
-```
-│  index.html
-│  
-├─assets
-│  ├─css
-│  │  ├─common
-│  │  │      common.css
-│  │  │
-│  │  ├─posts
-│  │  │      detail.css
-│  │  │      list.css
-│  │  │      modify.css
-│  │  │      write.css
-│  │  │
-│  │  └─users
-│  │      │  login.css
-│  │      │  signup.css
-│  │      │
-│  │      └─modify
-│  │              info.css
-│  │              password.css
-│  │
-│  ├─images
-│  │      default_post.png
-│  │      default_profile.png
-│  │
-│  └─js
-│      ├─apis
-│      │      commentsAPI.js
-│      │      heartsAPI.js
-│      │      postsAPI.js
-│      │      usersAPI.js
-│      │
-│      ├─common
-│      │      common.js
-│      │
-│      ├─posts
-│      │      detail.js
-│      │      list.js
-│      │      modify.js
-│      │      write.js
-│      │
-│      ├─users
-│      │  │  login.js
-│      │  │  signup.js
-│      │  │
-│      │  └─modify
-│      │          info.js
-│      │          password.js
-│      │
-│      └─utils
-│              formatter.js
-│              modalUtil.js
-│              validator.js
-│
-├─dummy
-│      data.json
-│
-└─pages
-    ├─posts
-    │      detail.html
-    │      list.html
-    │      modify.html
-    │      write.html
-    │
-    └─users
-        │  login.html
-        │  signup.html
-        │
-        └─modify
-                info.html
-                password.html
-```
+## Available Scripts
 
-### 리펙터링 이전 프로젝트 구조
+In the project directory, you can run:
 
-https://github.com/juintination/say-anything-party/tree/pre-refactor/project-structure
+### `npm start`
 
-```
-│  index.html
-│  loadData.js
-│
-├─dummy
-│  ├─data
-│  │      posts.json
-│  │      users.json
-│  │
-│  └─images
-│          default_post.png
-│          default_profile.png
-│
-├─login
-│      login.css
-│      login.html
-│      login.js
-│
-├─member
-│  └─modify
-│      ├─info
-│      │      info.css
-│      │      info.html
-│      │      info.js
-│      │
-│      └─password
-│              password.css
-│              password.html
-│              password.js
-│
-├─posts
-│  ├─detail
-│  │      detail.css
-│  │      detail.html
-│  │      detail.js
-│  │
-│  ├─list
-│  │      list.css
-│  │      list.html
-│  │      list.js
-│  │
-│  ├─modify
-│  │      modify.css
-│  │      modify.html
-│  │      modify.js
-│  │
-│  └─write
-│          write.css
-│          write.html
-│          write.js
-│
-└─signup
-        signup.css
-        signup.html
-        signup.js
-```
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
+
+### `npm test`
+
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+### `npm run build`
+
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
+
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run eject`
+
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
