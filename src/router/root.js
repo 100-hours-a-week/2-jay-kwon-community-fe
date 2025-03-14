@@ -1,10 +1,16 @@
-import{ createBrowserRouter } from 'react-router-dom'
+import { Suspense, lazy } from "react";
+
+const { createBrowserRouter } = require("react-router-dom");
+
+const Loading = <div className="loading-image"></div>
+
+const Main = lazy(() => import("../pages/MainPage"))
 
 const root = createBrowserRouter([
     {
-        path: '',
-        element: <div>Main Page</div>
-    }
+        path: "",
+        element: <Suspense fallback={Loading}><Main/></Suspense>
+    },
 ])
 
 export default root
