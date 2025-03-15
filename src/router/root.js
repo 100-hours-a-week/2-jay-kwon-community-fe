@@ -1,5 +1,6 @@
 import { Suspense, lazy } from "react";
 import usersRouter from "./usersRouter";
+import postsRouter from "./postsRouter";
 
 const { createBrowserRouter } = require("react-router-dom");
 
@@ -15,6 +16,10 @@ const root = createBrowserRouter([
     {
         path: "users",
         children: usersRouter()
+    },
+    {
+        path: "posts",
+        children: postsRouter()
     },
 ])
 
