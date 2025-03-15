@@ -18,4 +18,12 @@ function formatDate(dateStr) {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
-export { formatCount, formatDate };
+// 제목을 최대 길이(26)로 자르고 "..."을 추가하는 함수
+function truncateTitle(title, maxLength = 26) {
+    if (title.length > maxLength) {
+        return title.substring(0, maxLength) + '...';
+    }
+    return title;
+}
+
+export { formatCount, formatDate, truncateTitle };

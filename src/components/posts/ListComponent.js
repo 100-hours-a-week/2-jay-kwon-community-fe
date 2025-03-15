@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getPostList } from '../../api/postsApi';
-import { formatCount, formatDate } from '../../util/formatter';
+import { formatCount, formatDate, truncateTitle } from '../../util/formatter';
 import { getThumbnail } from '../../api/imageApi';
 
 const ListComponent = () => {
@@ -47,7 +47,7 @@ const ListComponent = () => {
                 <div className="post-list">
                     {posts.map(post => (
                         <div key={post.id} className="bg-white p-5 mb-5 rounded-lg shadow-sm min-h-[180px]">
-                            <h2 className="text-2xl font-bold mb-4">{post.title}</h2>
+                            <h2 className="text-2xl font-bold mb-4">{truncateTitle(post.title)}</h2>
                             <div className="flex justify-between items-center mb-4">
                                 <div className="text-md text-gray-600 mr-4">
                                     좋아요 {formatCount(post.likeCount)} 댓글 {formatCount(post.commentCount)} 조회수 {formatCount(post.viewCount)}
