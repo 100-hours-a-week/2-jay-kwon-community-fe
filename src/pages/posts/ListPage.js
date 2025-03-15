@@ -2,7 +2,7 @@ import ListComponent from "../../components/posts/ListComponent";
 import BasicLayout from "../../layouts/BasicLayout";
 import React from "react";
 
-const SignupPage = () => {
+const ListPage = () => {
     return (
         <>
             <BasicLayout>
@@ -12,4 +12,4 @@ const SignupPage = () => {
     );
 }
 
-export default SignupPage;
+export default ListPage;
