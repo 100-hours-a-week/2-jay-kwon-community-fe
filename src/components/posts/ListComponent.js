@@ -33,6 +33,10 @@ const ListComponent = () => {
         navigate('/posts/write');
     };
 
+    const handleCardClick = (postId) => {
+        navigate(`/posts/detail/${postId}`);
+    };
+
     return (
         <div className="bg-[#F4F5F7] min-h-screen flex justify-center items-center">
             <div className="mt-10 m-2 p-6 w-full max-w-2xl">
@@ -46,7 +50,7 @@ const ListComponent = () => {
                 </div>
                 <div className="post-list">
                     {posts.map(post => (
-                        <div key={post.id} className="bg-white p-5 mb-5 rounded-lg shadow-sm min-h-[180px]">
+                        <div key={post.id} className="bg-white p-5 mb-5 rounded-lg shadow-sm min-h-[180px] cursor-pointer" onClick={() => handleCardClick(post.id)}>
                             <h2 className="text-2xl font-bold mb-4">{truncateTitle(post.title)}</h2>
                             <div className="flex justify-between items-center mb-4">
                                 <div className="text-md text-gray-600 mr-4">
