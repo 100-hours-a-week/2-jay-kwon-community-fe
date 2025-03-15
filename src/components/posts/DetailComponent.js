@@ -232,8 +232,18 @@ const DetailComponent = () => {
                     </div>
                     {loginState.id === post.writerId && (
                         <div className="text-md text-black flex items-center justify-end">
-                            <button onClick={handleEditPost} className="ml-2 border border-[#7F6AEE] rounded-xl px-3 py-1">수정</button>
-                            <button onClick={handleDeletePost} className="ml-2 border border-[#7F6AEE] rounded-xl px-3 py-1">삭제</button>
+                            <button
+                                onClick={handleEditPost}
+                                className="ml-2 border border-[#7F6AEE] rounded-xl px-3 py-1 hover:bg-[#7F6AEE] hover:text-white"
+                            >
+                                수정
+                            </button>
+                            <button
+                                onClick={handleDeletePost}
+                                className="ml-2 border border-[#7F6AEE] rounded-xl px-3 py-1 hover:bg-[#7F6AEE] hover:text-white"
+                            >
+                                삭제
+                            </button>
                         </div>
                     )}
                 </div>
@@ -310,8 +320,16 @@ const DetailComponent = () => {
                                     </div>
                                     {loginState.id === comment.commenterId && (
                                         <div className="text-md text-black flex items-center justify-end">
-                                            <button onClick={() => handleEditComment(comment.id, comment.content)} className="ml-2 border border-[#7F6AEE] rounded-xl px-3 py-1">수정</button>
-                                            <button onClick={() => handleDeleteComment(comment.id)} className="ml-2 border border-[#7F6AEE] rounded-xl px-3 py-1">삭제</button>
+                                            <button
+                                                onClick={() => handleEditComment(comment.id, comment.content)}
+                                                className="ml-2 border border-[#7F6AEE] rounded-xl px-3 py-1 hover:bg-[#7F6AEE] hover:text-white">
+                                                수정
+                                            </button>
+                                            <button
+                                                onClick={() => handleDeleteComment(comment.id)}
+                                                className="ml-2 border border-[#7F6AEE] rounded-xl px-3 py-1 hover:bg-[#7F6AEE] hover:text-white">
+                                                삭제
+                                            </button>
                                         </div>
                                     )}
                                 </div>
