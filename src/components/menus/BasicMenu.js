@@ -38,7 +38,7 @@ const BasicMenu = () => {
     };
 
     const handlePasswordChange = () => {
-        moveToPath(`/users/modify/${loginState.userId}/password`);
+        moveToPath(`/users/modify/${loginState.id}/password`);
     };
 
     return (
