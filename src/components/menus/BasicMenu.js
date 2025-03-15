@@ -33,8 +33,12 @@ const BasicMenu = () => {
     };
 
     const handleLogout = () => {
-        doLogout()
-        moveToPath("/")
+        doLogout();
+        moveToPath("/");
+    };
+
+    const handlePasswordChange = () => {
+        moveToPath(`/users/modify/${loginState.userId}/password`);
     };
 
     return (
@@ -65,7 +69,7 @@ const BasicMenu = () => {
                                 <li className="py-2 text-center text-sm text-black cursor-pointer hover:bg-[#E9E9E9]">
                                     회원정보수정
                                 </li>
-                                <li className="py-2 text-center text-sm text-black cursor-pointer hover:bg-[#E9E9E9]">
+                                <li className="py-2 text-center text-sm text-black cursor-pointer hover:bg-[#E9E9E9]" onClick={handlePasswordChange}>
                                     비밀번호수정
                                 </li>
                                 <li className="py-2 text-center text-sm text-black cursor-pointer hover:bg-[#E9E9E9]" onClick={handleLogout}>
@@ -79,6 +83,6 @@ const BasicMenu = () => {
             <hr className="w-full border-black" />
         </div>
     );
-}
+};
 
 export default BasicMenu;
