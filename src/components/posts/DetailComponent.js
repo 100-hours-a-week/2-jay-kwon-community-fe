@@ -6,6 +6,8 @@ import { getCommentByPostId, postComment, deleteComment, putComment } from '../.
 import { getPostLikeListByBno, postPostLike, deletePostLike } from '../../api/postLikesApi';
 import { formatDate, formatCount } from '../../util/formatter';
 import useCustomLogin from '../../hooks/useCustomLogin';
+import BasicModal from '../modals/BasicModal';
+import useModal from '../../hooks/useModal';
 
 const DetailComponent = () => {
     const { postId } = useParams();
@@ -22,6 +24,9 @@ const DetailComponent = () => {
     const [editingCommentContent, setEditingCommentContent] = useState('');
     const { loginState } = useCustomLogin();
     const [isCommentValid, setIsCommentValid] = useState(false);
+
+    const { isOpen, modalContent, openModal, closeModal } = useModal();
+    const [deleteTarget, setDeleteTarget] = useState(null);
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -147,12 +152,28 @@ const DetailComponent = () => {
         navigate(`/posts/edit/${postId}`);
     };
 
-    const handleDeletePost = async () => {
+    const handleDeletePost = () => {
+        setDeleteTarget({ type: 'post', id: postId });
+        openModal('게시글을 삭제하시겠습니까?', '삭제한 내용은 북구할 수 없습니다.');
+    };
+
+    const handleDeleteComment = (commentId) => {
+        setDeleteTarget({ type: 'comment', id: commentId });
+        openModal('댓글을 삭제하시겠습니까?', '삭제한 내용은 북구할 수 없습니다.');
+    };
+
+    const confirmDelete = async () => {
         try {
-            await deletePost(postId);
-            navigate('/posts/list');
+            if (deleteTarget.type === 'post') {
+                await deletePost(deleteTarget.id);
+                navigate('/posts/list');
+            } else if (deleteTarget.type === 'comment') {
+                await deleteComment(deleteTarget.id);
+                setComments(comments.filter(comment => comment.id !== deleteTarget.id));
+            }
+            closeModal();
         } catch (err) {
-            setError('Error deleting post');
+            setError(`Error deleting ${deleteTarget.type}`);
         }
     };
 
@@ -188,15 +209,6 @@ const DetailComponent = () => {
             }
         } catch (err) {
             setError('Error updating comment');
-        }
-    };
-
-    const handleDeleteComment = async (commentId) => {
-        try {
-            await deleteComment(commentId);
-            setComments(comments.filter(comment => comment.id !== commentId));
-        } catch (err) {
-            setError('Error deleting comment');
         }
     };
 
@@ -311,6 +323,13 @@ const DetailComponent = () => {
                     ))}
                 </div>
             </div>
+            <BasicModal
+                isOpen={isOpen}
+                title={modalContent.title}
+                message={modalContent.message}
+                onClose={closeModal}
+                onConfirm={confirmDelete}
+            />
         </div>
     );
 };
