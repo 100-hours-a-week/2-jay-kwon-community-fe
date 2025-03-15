@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { validateEmail, validatePassword } from "../../util/validator";
@@ -11,8 +11,14 @@ const initState = {
 const LoginComponent = () => {
     const [loginParam, setLoginParam] = useState({ ...initState });
     const [error, setError] = useState('');
+    const [isFormValid, setIsFormValid] = useState(false);
 
     const { doLogin, moveToPath } = useCustomLogin();
+
+    useEffect(() => {
+        const isValid = validateEmail(loginParam.email).valid && validatePassword(loginParam.password).valid;
+        setIsFormValid(isValid);
+    }, [loginParam]);
 
     const handleChange = (e) => {
         loginParam[e.target.name] = e.target.value;
@@ -83,7 +89,7 @@ const LoginComponent = () => {
                 <div className="flex justify-center">
                     <div className="relative mb-4 flex w-full justify-center">
                         <div className="w-full p-3 flex justify-center font-bold">
-                            <button className="rounded-md p-3 w-full bg-[#ACA0EB] text-xl text-white hover:bg-[#7F6AEE]" onClick={handleClickLogin}>
+                            <button className={`rounded-md p-3 w-full text-xl text-white ${isFormValid ? 'bg-[#ACA0EB] hover:bg-[#7F6AEE]' : 'bg-[#ACA0EB] cursor-not-allowed'}`} onClick={handleClickLogin} disabled={!isFormValid}>
                                 로그인
                             </button>
                         </div>
