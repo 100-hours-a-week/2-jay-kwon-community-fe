@@ -22,12 +22,12 @@ export const postImage = async (image, imageType) => {
     }
 };
 
-export const getImage = async (imageId) => {
-    const res = await axios.get(`${prefix}/${imageId}`);
+export const getImage = async (imageUrl) => {
+    const res = await axios.get(`${prefix}/${imageUrl}`);
     return res.data;
 };
 
-export const getThumbnail = async (imageId) => {
-    const res = await axios.get(`${prefix}/thumbnail/${imageId}`);
+export const getThumbnail = async (imageUrl) => {
+    const res = await axios.get(`${prefix}/thumbnail/${imageUrl}`);
     return res.data;
 };
