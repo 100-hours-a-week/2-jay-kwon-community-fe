@@ -29,6 +29,10 @@ const ListComponent = () => {
         fetchPosts();
     }, []);
 
+    const handleCreatePost = () => {
+        navigate('/posts/write');
+    };
+
     return (
         <div className="bg-[#F4F5F7] min-h-screen flex justify-center items-center">
             <div className="mt-10 m-2 p-6 w-full max-w-2xl">
@@ -36,7 +40,7 @@ const ListComponent = () => {
                     <div className="text-xl m-6 p-6 text-black text-center">안녕하세요,<br/>아무 말 대잔치 <strong className="font-extrabold">게시판</strong> 입니다.</div>
                 </div>
                 <div className="flex justify-end mb-4">
-                    <button className="bg-[#ACA0EB] text-white px-4 py-2 rounded-2xl hover:bg-[#7F6AEE]">
+                    <button className="bg-[#ACA0EB] text-white px-4 py-2 rounded-2xl hover:bg-[#7F6AEE]" onClick={handleCreatePost}>
                         게시글 작성
                     </button>
                 </div>
