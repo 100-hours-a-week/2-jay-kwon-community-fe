@@ -1,86 +1,79 @@
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import { getCookie, setCookie } from "./cookieUtil";
 import API_SERVER_HOST from "../api/apiConfig";
 
-const prefix = `${API_SERVER_HOST}/auth`
+const prefix = `${API_SERVER_HOST}/auth`;
+const jwtAxios = axios.create();
 
-const jwtAxios = axios.create()
+// JWT 토큰의 만료 여부 확인
+const isTokenExpired = (token) => {
+    try {
+        const { exp } = jwtDecode(token);
+        return Date.now() / 1000 > exp;
+    } catch (e) {
+        return true;
+    }
+};
 
 const refreshJWT = async (accessToken, refreshToken) => {
+    const config = { headers: { "Authorization": `Bearer ${accessToken}` } };
+    const res = await axios.put(`${prefix}/tokens?refreshToken=${refreshToken}`, null, config);
+    return res.data;
+};
 
-    const header = { headers: { "Authorization": `Bearer ${accessToken}` } }
-
-    const res = await axios.put(`${prefix}/tokens?refreshToken=${refreshToken}`, header)
-
-    return res.data
-}
-
-// before request
-const beforeReq = (config) => {
-    console.log("beforeRequest")
-    const memberInfo = getCookie("member")
+// 요청 전에 토큰이 만료되었으면 갱신 로직 실행
+const beforeReq = async (config) => {
+    console.log("beforeRequest");
+    const memberInfo = getCookie("member");
     if (!memberInfo) {
-        console.log("memberNotFound")
-        return Promise.reject(
-            {
-                response:
-                {
-                    data:
-                    {
-                        error: "requireLogin"
-                    }
-                }
-            }
-        )
+        console.log("memberNotFound");
+        return Promise.reject({
+            response: { data: { error: "requireLogin" } }
+        });
     }
 
-    const { accessToken } = memberInfo
+    let { accessToken, refreshToken } = memberInfo;
 
-    //  Authorization 헤더 처리
-    config.headers.Authorization = `Bearer ${accessToken}`
-    return config
-}
+    if (isTokenExpired(accessToken)) {
+        try {
+            console.log("refreshing token...");
+            const result = await refreshJWT(accessToken, refreshToken);
 
-// fail request
+            const { accessToken: newAccessToken, refreshToken: newRefreshToken } = result.data;
+            accessToken = newAccessToken;
+            refreshToken = newRefreshToken;
+
+            memberInfo.accessToken = accessToken;
+            memberInfo.refreshToken = refreshToken;
+            setCookie("member", JSON.stringify(memberInfo));
+        } catch (err) {
+            console.error("토큰 갱신 실패:", err);
+            return Promise.reject(err);
+        }
+    }
+
+    // 최종적으로 (갱신된) 토큰을 헤더에 추가
+    config.headers.Authorization = `Bearer ${accessToken}`;
+    return config;
+};
+
 const requestFail = (err) => {
-    console.log("requestFailError")
-    return Promise.reject(err)
-}
-
-// before return response
-const beforeRes = async (res) => {
-    console.log("beforeReturnResponse")
-
-    // ERROR_ACCESS_TOKEN
-    const data = res.data
-    if (data && data.error === 'invalidToken') {
-
-        const memberCookieValue = getCookie("member")
-
-        const result = await refreshJWT(memberCookieValue.accessToken, memberCookieValue.refreshToken)
-        memberCookieValue.accessToken = result.accessToken
-        memberCookieValue.refreshToken = result.refreshToken
-
-        setCookie("member", JSON.stringify(memberCookieValue))
-
-        const originalRequest = res.config
-
-        originalRequest.headers.Authorization = `Bearer ${result.accessToken}`
-
-        return await axios(originalRequest)
-
-    }
-
-    return res
-}
-
-// fail response
-const responseFail = (err) => {
-    console.log("responseFailError")
+    console.log("requestFailError");
     return Promise.reject(err);
-}
+};
 
-jwtAxios.interceptors.request.use(beforeReq, requestFail)
-jwtAxios.interceptors.response.use(beforeRes, responseFail)
+const beforeRes = async (res) => {
+    console.log("beforeReturnResponse");
+    return res;
+};
 
-export default jwtAxios
+const responseFail = (err) => {
+    console.log("responseFailError");
+    return Promise.reject(err);
+};
+
+jwtAxios.interceptors.request.use(beforeReq, requestFail);
+jwtAxios.interceptors.response.use(beforeRes, responseFail);
+
+export default jwtAxios;
