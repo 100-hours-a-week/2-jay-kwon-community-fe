@@ -8,6 +8,8 @@ const Write = lazy(() => import("../pages/posts/WritePage"))
 
 const Detail = lazy(() => import("../pages/posts/DetailPage"))
 
+const Edit = lazy(() => import("../pages/posts/EditPage"))
+
 const usersRouter = () => {
 
     return [
@@ -22,6 +24,10 @@ const usersRouter = () => {
         {
             path: "detail/:postId",
             element: <Suspense fallback={Loading}><Detail /></Suspense>,
+        },
+        {
+            path: "edit/:postId",
+            element: <Suspense fallback={Loading}><Edit /></Suspense>,
         },
     ]
 
