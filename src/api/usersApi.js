@@ -47,11 +47,19 @@ export const getMember = async (userId) => {
     return res.data;
 }
 
-export const modifyMember = async (member, userId) => {
+export const modifyMember = async (userId, member) => {
     if (!userId) {
         throw new Error("User id (userId) is required");
     }
     const res = await jwtAxios.put(`${prefix}/${userId}`, member);
+    return res.data;
+}
+
+export const changePassword = async (userId, passwordData) => {
+    if (!userId) {
+        throw new Error("User id (userId) is required");
+    }
+    const res = await jwtAxios.put(`${prefix}/${userId}/password`, passwordData);
     return res.data;
 }
 
