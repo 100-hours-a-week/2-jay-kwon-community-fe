@@ -222,7 +222,7 @@ const DetailComponent = () => {
     }
 
     return (
-        <div className="bg-[#F4F5F7] min-h-screen flex flex-col items-center">
+        <div className="bg-[#F4F5F7] min-h-screen flex flex-col items-center pt-16">
             <div className="w-full max-w-2xl p-6">
                 <div className="text-xl font-extrabold text-black mb-2">{truncateTitle(post.title)}</div>
                 <div className="flex justify-between items-center mb-4">
