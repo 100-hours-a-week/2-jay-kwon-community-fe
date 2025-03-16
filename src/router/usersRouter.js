@@ -8,6 +8,8 @@ const Signup = lazy(() => import("../pages/users/SignupPage"))
 
 const ChangePassword = lazy(() => import("../pages/users/ChangePasswordPage"))
 
+const EditProfile = lazy(() => import("../pages/users/EditProfilePage"))
+
 const usersRouter = () => {
 
     return [
@@ -22,6 +24,10 @@ const usersRouter = () => {
         {
             path: "modify/:userId/password",
             element: <Suspense fallback={Loading}><ChangePassword /></Suspense>,
+        },
+        {
+            path: "modify/:userId/profile",
+            element: <Suspense fallback={Loading}><EditProfile /></Suspense>,
         },
     ]
 

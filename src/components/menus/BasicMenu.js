@@ -41,6 +41,10 @@ const BasicMenu = () => {
         moveToPath(`/users/modify/${loginState.id}/password`);
     };
 
+    const handleProfileEdit = () => {
+        moveToPath(`/users/modify/${loginState.id}/profile`);
+    };
+
     return (
         <div className="w-full bg-[#F4F5F7] flex flex-col items-center relative">
             <ul className="grid grid-cols-3 p-3 text-black font-bold items-center w-full">
@@ -66,7 +70,7 @@ const BasicMenu = () => {
                     {isDropdownOpen && (
                         <div className="absolute top-10 left-0 transform -translate-x-3/4 bg-[#D9D9D9] shadow-lg w-36 z-10">
                             <ul className="m-0 p-0">
-                                <li className="py-2 text-center text-sm text-black cursor-pointer hover:bg-[#E9E9E9]">
+                                <li className="py-2 text-center text-sm text-black cursor-pointer hover:bg-[#E9E9E9]" onClick={handleProfileEdit}>
                                     회원정보수정
                                 </li>
                                 <li className="py-2 text-center text-sm text-black cursor-pointer hover:bg-[#E9E9E9]" onClick={handlePasswordChange}>
