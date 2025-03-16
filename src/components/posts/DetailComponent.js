@@ -155,12 +155,12 @@ const DetailComponent = () => {
 
     const handleDeletePost = () => {
         setDeleteTarget({ type: 'post', id: postId });
-        openModal('게시글을 삭제하시겠습니까?', '삭제한 내용은 북구할 수 없습니다.');
+        openModal('게시글을 삭제하시겠습니까?', '삭제한 내용은 복구할 수 없습니다.');
     };
 
     const handleDeleteComment = (commentId) => {
         setDeleteTarget({ type: 'comment', id: commentId });
-        openModal('댓글을 삭제하시겠습니까?', '삭제한 내용은 북구할 수 없습니다.');
+        openModal('댓글을 삭제하시겠습니까?', '삭제한 내용은 복구할 수 없습니다.');
     };
 
     const confirmDelete = async () => {
