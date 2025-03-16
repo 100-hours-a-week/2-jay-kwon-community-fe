@@ -1,7 +1,7 @@
 ### Say Anything Party
-아무 말 대잔치 커뮤니
+아무 말 대잔치 커뮤니티
 
-### Related Project
+### 연관 프로젝트
 Backend API Server: [sap-api-server](https://github.com/juintination/sap-api-server)
 
 ### 사용 방법
