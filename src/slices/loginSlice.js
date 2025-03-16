@@ -25,7 +25,7 @@ const loginSlice = createSlice({
     initialState: loadMemberCookie() || initState,
     reducers: {
         login: (state, action) => {
-            const payload = action.payload.data;
+            const payload = action.payload;
             setCookie("member", JSON.stringify(payload));
             return payload;
         },
@@ -53,6 +53,6 @@ const loginSlice = createSlice({
     }
 })
 
-export const {login,logout} = loginSlice.actions
+export const { login, logout } = loginSlice.actions
 
 export default loginSlice.reducer
