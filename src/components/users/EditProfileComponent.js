@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { validateEmail, validateNickname } from "../../util/validator";
 import { postImage, getImage } from "../../api/imageApi";
-import { existsEmail, existsNickname, modifyMember, getMember } from "../../api/usersApi";
-import { updateLoginInfo } from "../../slices/loginSlice";
+import { existsEmail, existsNickname, modifyMember, getMember, removeMember } from "../../api/usersApi";
+import { updateLoginInfo, logout } from "../../slices/loginSlice";
 import BasicToast from "../toasts/BasicToast";
 import useToast from "../../hooks/useToast";
+import useModal from "../../hooks/useModal";
+import BasicModal from "../modals/BasicModal";
 
 const initState = {
     email: '',
@@ -23,7 +25,9 @@ const EditProfileComponent = () => {
     const { userId } = useParams();
     const { loginState } = useCustomLogin();
     const { isOpen, message, showToast, closeToast } = useToast();
+    const { isOpen: isModalOpen, modalContent, openModal, closeModal } = useModal();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchMemberData = async () => {
@@ -112,6 +116,21 @@ const EditProfileComponent = () => {
         }
     };
 
+    const handleDeleteAccount = async () => {
+        try {
+            await removeMember(userId);
+            dispatch(logout());
+            closeModal();
+            navigate('/');
+        } catch (err) {
+            setErrors({ form: "*회원 탈퇴에 실패했습니다. 다시 시도해주세요" });
+        }
+    };
+
+    const openDeleteAccountModal = () => {
+        openModal("회원 탈퇴하시겠습니까?", "작성된 게시글과 댓글은 삭제됩니다.");
+    };
+
     return (
         <div className="bg-[#F4F5F7] min-h-screen flex justify-center items-center">
             <div className="mt-10 m-2 p-4 w-full max-w-md">
@@ -173,7 +192,19 @@ const EditProfileComponent = () => {
                     </div>
                 </div>
                 {errors.form && <div className="w-full p-1 text-left text-red-500 text-sm mt-1">{errors.form}</div>}
+                <div className="flex justify-center">
+                    <Link to="#" onClick={openDeleteAccountModal} className="text-black hover:underline">
+                        회원 탈퇴
+                    </Link>
+                </div>
                 <BasicToast isOpen={isOpen} message={message} onClose={closeToast} />
+                <BasicModal
+                    isOpen={isModalOpen}
+                    title={modalContent.title}
+                    message={modalContent.message}
+                    onClose={closeModal}
+                    onConfirm={handleDeleteAccount}
+                />
             </div>
         </div>
     );
