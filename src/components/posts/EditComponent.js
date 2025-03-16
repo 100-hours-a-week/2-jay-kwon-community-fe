@@ -99,7 +99,7 @@ const EditComponent = () => {
     };
 
     return (
-        <div className="bg-[#F4F5F7] min-h-screen flex flex-col items-center">
+        <div className="bg-[#F4F5F7] min-h-screen flex flex-col items-center pt-16">
             <div className="flex justify-center">
                 <div className="text-xl m-4 p-4 font-extrabold text-black">게시글 수정</div>
             </div>
