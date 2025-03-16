@@ -32,6 +32,11 @@ const loginSlice = createSlice({
         logout: (state, action) => {
             removeCookie("member");
             return { ...initState };
+        },
+        updateLoginInfo: (state, action) => {
+            const payload = action.payload;
+            setCookie("member", JSON.stringify(payload))
+            return { ...state, ...payload }
         }
     },
     extraReducers: (builder) => {
@@ -53,6 +58,6 @@ const loginSlice = createSlice({
     }
 })
 
-export const { login, logout } = loginSlice.actions
+export const { login, logout, updateLoginInfo } = loginSlice.actions
 
 export default loginSlice.reducer
