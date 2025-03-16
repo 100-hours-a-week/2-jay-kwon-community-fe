@@ -120,7 +120,7 @@ const ChangePasswordComponent = () => {
                     <div className="relative mb-4 flex w-full justify-center">
                         <div className="w-full p-3 flex justify-center font-bold">
                             <button className={`rounded-md p-3 w-full text-xl text-white ${isFormValid ? 'bg-[#ACA0EB] hover:bg-[#7F6AEE]' : 'bg-[#ACA0EB] cursor-not-allowed'}`} onClick={handleClickChangePassword} disabled={!isFormValid}>
-                                Change Password
+                                수정하기
                             </button>
                         </div>
                     </div>
