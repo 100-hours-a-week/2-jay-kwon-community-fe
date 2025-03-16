@@ -113,12 +113,13 @@ const DetailComponent = () => {
             };
             const response = await postComment(commentData);
             if (response.message === 'registerSuccess') {
+                const profileImageResponse = await getImage(loginState.profileImageUrl || 'default.png');
                 const newCommentData = {
                     id: response.data.id,
                     content: newComment,
                     regDate: new Date().toISOString(),
                     commenterNickname: loginState.nickname,
-                    commenterProfileImageData: writerProfileImage,
+                    commenterProfileImageData: profileImageResponse.fileContent,
                     commenterId: loginState.id
                 };
                 setComments([...comments, newCommentData]);
