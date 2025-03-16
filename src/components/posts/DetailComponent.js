@@ -4,7 +4,7 @@ import { getPost, deletePost } from '../../api/postsApi';
 import { getImage } from '../../api/imageApi';
 import { getCommentByPostId, postComment, deleteComment, putComment } from '../../api/commentsApi';
 import { getPostLikeListByBno, postPostLike, deletePostLike } from '../../api/postLikesApi';
-import { formatDate, formatCount } from '../../util/formatter';
+import { formatDate, formatCount, truncateTitle } from '../../util/formatter';
 import useCustomLogin from '../../hooks/useCustomLogin';
 import BasicModal from '../modals/BasicModal';
 import useModal from '../../hooks/useModal';
@@ -224,7 +224,7 @@ const DetailComponent = () => {
     return (
         <div className="bg-[#F4F5F7] min-h-screen flex flex-col items-center">
             <div className="w-full max-w-2xl p-6">
-                <div className="text-xl font-extrabold text-black mb-2">{post.title}</div>
+                <div className="text-xl font-extrabold text-black mb-2">{truncateTitle(post.title)}</div>
                 <div className="flex justify-between items-center mb-4">
                     <div className="flex items-center">
                         <img className="w-6 h-6 rounded-full mr-2" src={`data:image/jpeg;base64,${writerProfileImage}`} alt="Author" />
