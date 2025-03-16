@@ -1,70 +1,52 @@
-# Getting Started with Create React App
+### Say Anything Party
+아무 말 대잔치 커뮤니
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Related Project
+Backend API Server: [sap-api-server](https://github.com/juintination/sap-api-server)
 
-## Available Scripts
+### 사용 방법
+1. Git clone repository
 
-In the project directory, you can run:
+```
+git clone https://github.com/juintination/say-anything-party.git
 
-### `npm start`
+cd say-anything-party
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+2. Install modules
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```
+npm install
+```
 
-### `npm test`
+3. Run application
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+npm start
+```
 
-### `npm run build`
+### 리액트 마이그레이션 이전 프로젝트 링크
+https://github.com/juintination/say-anything-party/tree/pre-refactor/react-migration
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 실행 화면
+![login](https://github.com/user-attachments/assets/519f9c48-280e-4e01-a9a2-c1f2cddc9ea2)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![signup](https://github.com/user-attachments/assets/31e26b05-ddf1-4c86-9954-bb396b5890c2)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![post-list](https://github.com/user-attachments/assets/fbcf7018-bdba-4c80-9113-d248b6304439)
 
-### `npm run eject`
+![dropdown](https://github.com/user-attachments/assets/d326f4b8-ef25-4da5-a36e-1ea8e37ca556)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+![post-detail](https://github.com/user-attachments/assets/c13a13b0-1c04-4225-a18c-c9817449e353)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![post-edit](https://github.com/user-attachments/assets/a12c6e10-b433-4310-aa79-d87c71a6b947)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+![post-delete](https://github.com/user-attachments/assets/74b0bab6-6a12-4109-a82a-50923e6cf763)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+![comment-delete](https://github.com/user-attachments/assets/cc048fbf-6594-4f45-a343-e7c2301e5dac)
 
-## Learn More
+![change-password](https://github.com/user-attachments/assets/c179eb2e-33e3-4b8c-904a-b4f158ea1ace)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+![edit-profile](https://github.com/user-attachments/assets/ae2ac4d4-7630-41fc-b3f8-26f0dd4b2693)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![member-withdrawal](https://github.com/user-attachments/assets/763deef4-d097-4a83-b3df-d12c32e5e5d1)
