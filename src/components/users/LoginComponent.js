@@ -44,12 +44,10 @@ const LoginComponent = () => {
                 if (response.success) {
                     setError('');
                     moveToPath('/');
-                } else {
-                    setError(response.message === "invalidCredentials" ? "이메일과 패스워드를 다시 확인하세요" : response.message);
                 }
             })
             .catch(err => {
-                setError("*이메일과 패스워드를 다시 확인하세요");
+                setError("*아이디 또는 비밀번호를 확인해주세요");
             });
     };
 
