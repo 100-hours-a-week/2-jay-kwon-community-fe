@@ -141,10 +141,12 @@ const EditProfileComponent = () => {
                     <div className="relative mb-4 flex w-full flex-wrap items-stretch justify-center">
                         <div className="w-full p-1 text-left font-extrabold">프로필 사진</div>
                         <div className="relative w-32 h-32 rounded-full bg-[#C4C4C4] flex justify-center items-center cursor-pointer overflow-hidden">
-                            <input className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                   name="profileImage"
-                                   type="file"
-                                   onChange={handleChange}
+                            <input
+                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                name="profileImage"
+                                type="file"
+                                onChange={handleChange}
+                                accept=".jpg, .jpeg, .png"
                             />
                             {selectedImageFile ? (
                                 <img src={URL.createObjectURL(selectedImageFile)} alt="Profile" className="w-full h-full object-cover" />

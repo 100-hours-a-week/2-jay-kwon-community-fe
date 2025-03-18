@@ -162,6 +162,7 @@ const EditComponent = () => {
                         name="postImageFile"
                         id="postImageFile"
                         onChange={handleChange}
+                        accept=".jpg, .jpeg, .png"
                         style={{ display: 'none' }}
                     />
                     <span className="ml-2">

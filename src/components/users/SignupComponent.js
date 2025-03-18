@@ -107,10 +107,12 @@ const SignupComponent = () => {
                         <div className="w-full p-1 text-left font-extrabold">프로필 사진</div>
                         {!signupParam.profileImage && <div className="w-full p-1 text-left text-red-500 text-sm mt-1">*프로필 사진을 추가해주세요</div>}
                         <div className="relative w-32 h-32 rounded-full bg-[#C4C4C4] flex justify-center items-center cursor-pointer overflow-hidden">
-                            <input className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                   name="profileImage"
-                                   type="file"
-                                   onChange={handleChange}
+                            <input
+                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                name="profileImage"
+                                type="file"
+                                onChange={handleChange}
+                                accept=".jpg, .jpeg, .png"
                             />
                             {signupParam.profileImage ? (
                                 <img src={URL.createObjectURL(signupParam.profileImage)} alt="Profile" className="w-full h-full object-cover" />
