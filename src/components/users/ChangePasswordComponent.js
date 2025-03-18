@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { validatePassword } from "../../util/validator";
 import { changePassword } from "../../api/usersApi";
@@ -16,8 +15,7 @@ const ChangePasswordComponent = () => {
     const [passwordParam, setPasswordParam] = useState({ ...initState });
     const [errors, setErrors] = useState({});
     const [isFormValid, setIsFormValid] = useState(false);
-    const { userId } = useParams();
-    const { exceptionHandle } = useCustomLogin();
+    const { loginState, exceptionHandle } = useCustomLogin();
     const { isOpen, message, showToast, closeToast } = useToast();
 
     useEffect(() => {
@@ -52,7 +50,7 @@ const ChangePasswordComponent = () => {
                 oldPassword: passwordParam.currentPassword,
                 newPassword: passwordParam.newPassword
             };
-            const response = await changePassword(userId, passwordData);
+            const response = await changePassword(loginState.id, passwordData);
             if (response.message === "modifySuccess") {
                 setErrors({});
                 showToast("수정 완료");

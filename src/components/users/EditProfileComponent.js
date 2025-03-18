@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { validateEmail, validateNickname } from "../../util/validator";
@@ -22,7 +22,6 @@ const EditProfileComponent = () => {
     const [displayProfileImageData, setDisplayProfileImageData] = useState('');
     const [errors, setErrors] = useState({});
     const [isFormValid, setIsFormValid] = useState(false);
-    const { userId } = useParams();
     const { loginState } = useCustomLogin();
     const { isOpen, message, showToast, closeToast } = useToast();
     const { isOpen: isModalOpen, modalContent, openModal, closeModal } = useModal();
@@ -31,7 +30,7 @@ const EditProfileComponent = () => {
 
     useEffect(() => {
         const fetchMemberData = async () => {
-            const response = await getMember(userId);
+            const response = await getMember(loginState.id);
             const memberData = response.data;
             setProfileParam({
                 email: memberData.email,
@@ -42,7 +41,7 @@ const EditProfileComponent = () => {
         };
 
         fetchMemberData();
-    }, [userId]);
+    }, [loginState.id]);
 
     useEffect(() => {
         const isValid = profileParam.email && profileParam.nickname && !Object.values(errors).some(error => error);
@@ -95,7 +94,7 @@ const EditProfileComponent = () => {
                 updatedProfileParam.profileImageUrl = imageResponse.data.fileName;
             }
 
-            const response = await modifyMember(userId, updatedProfileParam);
+            const response = await modifyMember(loginState.id, updatedProfileParam);
             if (response.message === "modifySuccess") {
                 setErrors({});
                 const updatedLoginInfo = {
@@ -118,7 +117,7 @@ const EditProfileComponent = () => {
 
     const handleDeleteAccount = async () => {
         try {
-            await removeMember(userId);
+            await removeMember(loginState.id);
             dispatch(logout());
             closeModal();
             navigate('/');

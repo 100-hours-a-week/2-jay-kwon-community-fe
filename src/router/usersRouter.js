@@ -22,11 +22,11 @@ const usersRouter = () => {
             element: <Suspense fallback={Loading}><Signup /></Suspense>,
         },
         {
-            path: "modify/:userId/password",
+            path: "modify/password",
             element: <Suspense fallback={Loading}><ChangePassword /></Suspense>,
         },
         {
-            path: "modify/:userId/profile",
+            path: "modify/profile",
             element: <Suspense fallback={Loading}><EditProfile /></Suspense>,
         },
     ]

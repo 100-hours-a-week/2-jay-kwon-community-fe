@@ -38,11 +38,11 @@ const BasicMenu = () => {
     };
 
     const handlePasswordChange = () => {
-        moveToPath(`/users/modify/${loginState.id}/password`);
+        moveToPath(`/users/modify/password`);
     };
 
     const handleProfileEdit = () => {
-        moveToPath(`/users/modify/${loginState.id}/profile`);
+        moveToPath(`/users/modify/profile`);
     };
 
     return (
