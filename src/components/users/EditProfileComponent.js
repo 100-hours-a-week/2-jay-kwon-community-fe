@@ -142,7 +142,7 @@ const EditProfileComponent = () => {
                         <div className="w-full p-1 text-left font-extrabold">프로필 사진</div>
                         <div className="relative w-32 h-32 rounded-full bg-[#C4C4C4] flex justify-center items-center cursor-pointer overflow-hidden">
                             <input
-                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                                 name="profileImage"
                                 type="file"
                                 onChange={handleChange}
@@ -153,6 +153,9 @@ const EditProfileComponent = () => {
                             ) : (
                                 <img src={`data:image/jpeg;base64,${displayProfileImageData}`} alt="Profile" className="w-full h-full object-cover" />
                             )}
+                            <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50 z-0">
+                                <div className="text-white border-2 border-white rounded-full px-3 py-1">변경</div>
+                            </div>
                         </div>
                     </div>
                 </div>
