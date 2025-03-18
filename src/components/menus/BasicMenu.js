@@ -11,7 +11,7 @@ const BasicMenu = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const { doLogout, moveToPath } = useCustomLogin();
 
-    const showBackButton = location.pathname !== '/';
+    const showBackButton = location.pathname !== '/' && location.pathname !== '/users/login'
 
     useEffect(() => {
         const fetchProfileImage = async () => {
