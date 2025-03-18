@@ -12,8 +12,13 @@ const LoginComponent = () => {
     const [loginParam, setLoginParam] = useState({ ...initState });
     const [error, setError] = useState('');
     const [isFormValid, setIsFormValid] = useState(false);
+    const { isLogin, doLogin, moveToPath } = useCustomLogin();
 
-    const { doLogin, moveToPath } = useCustomLogin();
+    useEffect(() => {
+        if (isLogin) {
+            moveToPath('/');
+        }
+    }, [isLogin, moveToPath]);
 
     useEffect(() => {
         const isValid = validateEmail(loginParam.email).valid && validatePassword(loginParam.password).valid;
@@ -43,7 +48,6 @@ const LoginComponent = () => {
             .then(response => {
                 if (response.success) {
                     setError('');
-                    moveToPath('/');
                 }
             })
             .catch(err => {
@@ -104,3 +108,4 @@ const LoginComponent = () => {
 };
 
 export default LoginComponent;
+
