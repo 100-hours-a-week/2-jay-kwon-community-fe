@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getPost, deletePost } from '../../api/postsApi';
-import { getImage } from '../../api/imageApi';
+import { getImage, getThumbnail } from '../../api/imageApi';
 import { getCommentsByPostId, postComment, deleteComment, putComment } from '../../api/commentsApi';
 import { getPostLikeListByBno, postPostLike, deletePostLike } from '../../api/postLikesApi';
 import { formatDate, formatCount, truncateTitle } from '../../util/formatter';
@@ -39,7 +39,7 @@ const DetailComponent = () => {
                         const imageResponse = await getImage(postData.postImageUrl);
                         setPostImage(imageResponse.fileContent);
                     }
-                    const profileImageResponse = await getImage(postData.writerProfileImageUrl || 'default.png');
+                    const profileImageResponse = await getThumbnail(postData.writerProfileImageUrl || 'default.png');
                     setWriterProfileImage(profileImageResponse.fileContent);
                 } else {
                     navigate('/posts/list');
@@ -55,7 +55,7 @@ const DetailComponent = () => {
                 const response = await getCommentsByPostId(postId);
                 if (response.message === 'success') {
                     const commentsWithImages = await Promise.all(response.data.map(async comment => {
-                        const profileImageResponse = await getImage(comment.commenterProfileImageUrl || 'default.png');
+                        const profileImageResponse = await getThumbnail(comment.commenterProfileImageUrl || 'default.png');
                         return { ...comment, commenterProfileImageData: profileImageResponse.fileContent };
                     }));
                     setComments(commentsWithImages);
@@ -113,7 +113,7 @@ const DetailComponent = () => {
             };
             const response = await postComment(commentData);
             if (response.message === 'registerSuccess') {
-                const profileImageResponse = await getImage(loginState.profileImageUrl || 'default.png');
+                const profileImageResponse = await getThumbnail(loginState.profileImageUrl || 'default.png');
                 const newCommentData = {
                     id: response.data.id,
                     content: newComment,
