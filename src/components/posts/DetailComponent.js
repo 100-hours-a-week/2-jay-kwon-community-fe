@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getPost, deletePost } from '../../api/postsApi';
 import { getImage } from '../../api/imageApi';
-import { getCommentByPostId, postComment, deleteComment, putComment } from '../../api/commentsApi';
+import { getCommentsByPostId, postComment, deleteComment, putComment } from '../../api/commentsApi';
 import { getPostLikeListByBno, postPostLike, deletePostLike } from '../../api/postLikesApi';
 import { formatDate, formatCount, truncateTitle } from '../../util/formatter';
 import useCustomLogin from '../../hooks/useCustomLogin';
@@ -52,7 +52,7 @@ const DetailComponent = () => {
 
         const fetchComments = async () => {
             try {
-                const response = await getCommentByPostId(postId);
+                const response = await getCommentsByPostId(postId);
                 if (response.message === 'success') {
                     const commentsWithImages = await Promise.all(response.data.map(async comment => {
                         const profileImageResponse = await getImage(comment.commenterProfileImageUrl || 'default.png');
