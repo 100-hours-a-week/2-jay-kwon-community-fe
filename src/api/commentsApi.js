@@ -6,7 +6,7 @@ const prefix = `${API_SERVER_HOST}/comments`;
 export const postComment = async (commentData) => {
     const formData = new FormData();
     formData.append('postId', commentData.postId);
-    formData.append('commenterId', commentData.commenterId);
+    formData.append('userId', commentData.userId);
     formData.append('content', commentData.content);
 
     const res = await jwtAxios.post(`${prefix}/`, formData)
