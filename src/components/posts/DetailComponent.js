@@ -108,7 +108,7 @@ const DetailComponent = () => {
         try {
             const commentData = {
                 postId,
-                commenterId: loginState.id,
+                userId: loginState.id,
                 content: newComment
             };
             const response = await postComment(commentData);
@@ -120,7 +120,7 @@ const DetailComponent = () => {
                     createdAt: new Date().toISOString(),
                     commenterNickname: loginState.nickname,
                     commenterProfileImageData: profileImageResponse.fileContent,
-                    commenterId: loginState.id
+                    userId: loginState.id
                 };
                 setComments([...comments, newCommentData]);
                 setNewComment('');
@@ -193,7 +193,7 @@ const DetailComponent = () => {
 
         try {
             const commentData = {
-                commenterId: loginState.id,
+                userId: loginState.id,
                 content: editingCommentContent
             };
             const response = await putComment(editingCommentId, commentData);
@@ -231,7 +231,7 @@ const DetailComponent = () => {
                         <span className="text-md p-2 mr-2">{post.writerNickname}</span>
                         <span className="text-md text-gray-500">{formatDate(post.createdAt)}</span>
                     </div>
-                    {loginState.id === post.writerId && (
+                    {loginState.id === post.userId && (
                         <div className="text-md text-black flex items-center justify-end">
                             <button
                                 onClick={handleEditPost}
@@ -319,7 +319,7 @@ const DetailComponent = () => {
                                         <span className="font-bold">{comment.commenterNickname}</span>
                                         <span className="text-gray-500 ml-2">{formatDate(comment.createdAt)}</span>
                                     </div>
-                                    {loginState.id === comment.commenterId && (
+                                    {loginState.id === comment.userId && (
                                         <div className="text-md text-black flex items-center justify-end">
                                             <button
                                                 onClick={() => handleEditComment(comment.id, comment.content)}

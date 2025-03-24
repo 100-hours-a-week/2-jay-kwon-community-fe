@@ -8,7 +8,7 @@ export const postPost = async (postData) => {
     formData.append('title', postData.title);
     formData.append('content', postData.content);
     formData.append('postImageUrl', postData.postImageUrl);
-    formData.append('writerId', postData.writerId);
+    formData.append('userId', postData.userId);
 
     try {
         const res = await jwtAxios.post(`${prefix}/`, formData, {
@@ -37,7 +37,7 @@ export const putPost = async (postId, postData) => {
     formData.append('title', postData.title);
     formData.append('content', postData.content);
     formData.append('postImageUrl', postData.postImageUrl);
-    formData.append('writerId', postData.writerId);
+    formData.append('userId', postData.userId);
 
     const res = await jwtAxios.put(`${prefix}/${postId}`, formData);
     return res.data

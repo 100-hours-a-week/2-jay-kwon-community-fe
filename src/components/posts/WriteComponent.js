@@ -40,7 +40,7 @@ const WriteComponent = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const writerId = loginState.id;
+        const userId = loginState.id;
 
         if (!title || !content) {
             setError('*제목, 내용을 모두 작성해주세요.');
@@ -62,7 +62,7 @@ const WriteComponent = () => {
             const postData = {
                 title,
                 content,
-                writerId,
+                userId: userId,
                 postImageUrl: imageUrl
             };
 
