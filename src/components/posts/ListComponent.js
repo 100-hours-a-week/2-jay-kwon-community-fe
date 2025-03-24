@@ -57,7 +57,7 @@ const ListComponent = () => {
                                     좋아요 {formatCount(post.likeCount)} 댓글 {formatCount(post.commentCount)} 조회수 {formatCount(post.viewCount)}
                                 </div>
                                 <div className="text-md text-gray-500">
-                                    {formatDate(post.regDate)}
+                                    {formatDate(post.createdAt)}
                                 </div>
                             </div>
                             <hr className="w-full border-t border-gray-300 my-1" />

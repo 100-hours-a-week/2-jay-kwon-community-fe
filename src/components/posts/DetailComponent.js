@@ -117,7 +117,7 @@ const DetailComponent = () => {
                 const newCommentData = {
                     id: response.data.id,
                     content: newComment,
-                    regDate: new Date().toISOString(),
+                    createdAt: new Date().toISOString(),
                     commenterNickname: loginState.nickname,
                     commenterProfileImageData: profileImageResponse.fileContent,
                     commenterId: loginState.id
@@ -229,7 +229,7 @@ const DetailComponent = () => {
                     <div className="flex items-center">
                         <img className="w-6 h-6 rounded-full mr-2" src={`data:image/jpeg;base64,${writerProfileImage}`} alt="Author" />
                         <span className="text-md p-2 mr-2">{post.writerNickname}</span>
-                        <span className="text-md text-gray-500">{formatDate(post.regDate)}</span>
+                        <span className="text-md text-gray-500">{formatDate(post.createdAt)}</span>
                     </div>
                     {loginState.id === post.writerId && (
                         <div className="text-md text-black flex items-center justify-end">
@@ -317,7 +317,7 @@ const DetailComponent = () => {
                                 <div className="flex justify-between items-center">
                                     <div>
                                         <span className="font-bold">{comment.commenterNickname}</span>
-                                        <span className="text-gray-500 ml-2">{formatDate(comment.regDate)}</span>
+                                        <span className="text-gray-500 ml-2">{formatDate(comment.createdAt)}</span>
                                     </div>
                                     {loginState.id === comment.commenterId && (
                                         <div className="text-md text-black flex items-center justify-end">
