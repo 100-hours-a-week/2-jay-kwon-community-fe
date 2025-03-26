@@ -27,6 +27,11 @@ export const getPost = async (postId) => {
     return res.data
 }
 
+export const getCommentsByPostId = async (postId) => {
+    const res = await jwtAxios.get(`${prefix}/${postId}/comments`);
+    return res.data
+}
+
 export const getPostList = async () => {
     const res = await jwtAxios.get(`${prefix}/`);
     return res.data

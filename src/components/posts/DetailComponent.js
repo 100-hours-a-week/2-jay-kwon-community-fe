@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getPost, deletePost } from '../../api/postsApi';
 import { getImage, getThumbnail } from '../../api/imageApi';
-import { getCommentsByPostId, postComment, deleteComment, putComment } from '../../api/commentsApi';
-import { getPostLikeListByBno, postPostLike, deletePostLike } from '../../api/postLikesApi';
+import { postComment, deleteComment, putComment } from '../../api/commentsApi';
+import { getCommentsByPostId } from '../../api/postsApi';
+import { getPostLikeListByPostId, postPostLike, deletePostLike } from '../../api/postLikesApi';
 import { formatDate, formatCount, truncateTitle } from '../../util/formatter';
 import useCustomLogin from '../../hooks/useCustomLogin';
 import BasicModal from '../modals/BasicModal';
@@ -69,7 +70,7 @@ const DetailComponent = () => {
 
         const fetchPostLikes = async () => {
             try {
-                const response = await getPostLikeListByBno(postId);
+                const response = await getPostLikeListByPostId(postId);
                 if (response.message === 'success') {
                     setLikeCount(response.data.length);
                     setHasLiked(response.data.some(like => like.userId === loginState.id));
@@ -140,7 +141,7 @@ const DetailComponent = () => {
                 await deletePostLike(postId, loginState.id);
                 setLikeCount(likeCount - 1);
             } else {
-                await postPostLike({ postId, userId: loginState.id });
+                await postPostLike(postId, loginState.id);
                 setLikeCount(likeCount + 1);
             }
             setHasLiked(!hasLiked);

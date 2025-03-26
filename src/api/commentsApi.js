@@ -18,11 +18,6 @@ export const getComment = async (commentId) => {
     return res.data
 }
 
-export const getCommentsByPostId = async (postId) => {
-    const res = await jwtAxios.get(`${prefix}/posts/${postId}`);
-    return res.data
-}
-
 export const putComment = async (commentId, commentData) => {
     const formData = new FormData();
     formData.append('commenterId', commentData.commenterId);

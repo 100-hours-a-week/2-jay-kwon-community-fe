@@ -1,28 +1,28 @@
 import jwtAxios from "../util/jwtUtil";
 import API_SERVER_HOST from "./apiConfig";
 
-const prefix = `${API_SERVER_HOST}/likes/posts`;
+const postPrefix = `${API_SERVER_HOST}/posts`;
 
-export const postPostLike = async (postLikeData) => {
-    const formData = new FormData();
-    formData.append('postId', postLikeData.postId);
-    formData.append('userId', postLikeData.userId);
-
-    const res = await jwtAxios.post(`${prefix}/`, formData)
+export const postPostLike = async (postId, userId) => {
+    const prefix = `${postPrefix}/${postId}/likes`;
+    const res = await jwtAxios.post(`${prefix}/users/${userId}`);
     return res.data;
 };
 
 export const getPostLike = async (postId, userId) => {
-    const res = await jwtAxios.get(`${prefix}/${postId}/users/${userId}`);
+    const prefix = `${postPrefix}/${postId}/likes`;
+    const res = await jwtAxios.get(`${prefix}/users/${userId}`);
     return res.data;
 };
 
-export const getPostLikeListByBno = async (postId) => {
-    const res = await jwtAxios.get(`${prefix}/${postId}`);
+export const getPostLikeListByPostId = async (postId) => {
+    const prefix = `${postPrefix}/${postId}/likes`;
+    const res = await jwtAxios.get(`${prefix}/`);
     return res.data;
 };
 
 export const deletePostLike = async (postId, userId) => {
-    const res = await jwtAxios.delete(`${prefix}/${postId}/users/${userId}`);
+    const prefix = `${postPrefix}/${postId}/likes`;
+    const res = await jwtAxios.delete(`${prefix}/users/${userId}`);
     return res.data;
 };
