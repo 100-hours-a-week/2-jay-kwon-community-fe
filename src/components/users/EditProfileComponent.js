@@ -30,14 +30,19 @@ const EditProfileComponent = () => {
 
     useEffect(() => {
         const fetchMemberData = async () => {
-            const response = await getMember(loginState.id);
-            const memberData = response.data;
-            setProfileParam({
-                email: memberData.email,
-                nickname: memberData.nickname
-            });
-            const imageResponse = await getImage(memberData.profileImageUrl);
-            setDisplayProfileImageData(imageResponse.fileContent);
+            if (!loginState.id) return;
+            try {
+                const response = await getMember(loginState.id);
+                const memberData = response.data;
+                setProfileParam({
+                    email: memberData.email,
+                    nickname: memberData.nickname
+                });
+                const imageResponse = await getImage(memberData.profileImageUrl);
+                setDisplayProfileImageData(imageResponse.fileContent);
+            } catch (error) {
+                console.error('Failed to fetch member data:', error);
+            }
         };
 
         fetchMemberData();
