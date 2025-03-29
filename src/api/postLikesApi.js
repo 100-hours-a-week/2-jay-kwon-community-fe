@@ -15,12 +15,6 @@ export const getPostLike = async (postId, userId) => {
     return res.data;
 };
 
-export const getPostLikeListByPostId = async (postId) => {
-    const prefix = `${postPrefix}/${postId}/likes`;
-    const res = await jwtAxios.get(`${prefix}/`);
-    return res.data;
-};
-
 export const deletePostLike = async (postId, userId) => {
     const prefix = `${postPrefix}/${postId}/likes`;
     const res = await jwtAxios.delete(`${prefix}/users/${userId}`);

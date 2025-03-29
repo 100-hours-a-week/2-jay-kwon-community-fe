@@ -4,7 +4,7 @@ import { getPost, deletePost } from '../../api/postsApi';
 import { getImage, getThumbnail } from '../../api/imageApi';
 import { postComment, deleteComment, putComment } from '../../api/commentsApi';
 import { getCommentsByPostId } from '../../api/postsApi';
-import { getPostLikeListByPostId, postPostLike, deletePostLike } from '../../api/postLikesApi';
+import { postPostLike, deletePostLike, getPostLike } from '../../api/postLikesApi';
 import { formatDate, formatCount, truncateTitle } from '../../util/formatter';
 import useCustomLogin from '../../hooks/useCustomLogin';
 import BasicModal from '../modals/BasicModal';
@@ -36,12 +36,19 @@ const DetailComponent = () => {
                 if (response.message === 'success') {
                     const postData = response.data;
                     setPost(postData);
+                    setLikeCount(postData.likeCount);
                     if (postData.postImageUrl) {
                         const imageResponse = await getImage(postData.postImageUrl);
                         setPostImage(imageResponse.fileContent);
                     }
                     const profileImageResponse = await getThumbnail(postData.writerProfileImageUrl || 'default.png');
                     setWriterProfileImage(profileImageResponse.fileContent);
+                    try {
+                        const likeResponse = await getPostLike(postId, loginState.id);
+                        setHasLiked(!!likeResponse);
+                    } catch (err) {
+                        setHasLiked(false);
+                    }
                 } else {
                     navigate('/posts/list');
                 }
@@ -68,23 +75,8 @@ const DetailComponent = () => {
             }
         };
 
-        const fetchPostLikes = async () => {
-            try {
-                const response = await getPostLikeListByPostId(postId);
-                if (response.message === 'success') {
-                    setLikeCount(response.data.length);
-                    setHasLiked(response.data.some(like => like.userId === loginState.id));
-                } else {
-                    setError('Failed to fetch likes');
-                }
-            } catch (err) {
-                setError('Error fetching likes');
-            }
-        };
-
         fetchPost();
         fetchComments();
-        fetchPostLikes();
     }, [postId, loginState.id, navigate]);
 
     const handleCommentChange = (e) => {
